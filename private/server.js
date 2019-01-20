@@ -4,17 +4,34 @@ app = express(),
 http = require('http'),
 bodyParser = require('body-parser'),
 compression = require('compression'),
-cors = require('cors'),
 multer = require('multer'),
 router = express.Router(),
-methodOverride = require('method-override');
+methodOverride = require('method-override'),
+exphbs  = require('express-handlebars'),
+passport = require('passport'),
+cors = require('cors'),
+session = require('express-session');
+app.use(cors());
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(bodyParser.json());
+// For Passport
+app.use(session({
+  secret: 'keyboard cat',
+  resave: true,
+  saveUninitialized: true
+})); // session secret
+app.use(passport.initialize());
+app.use(passport.session()); // persistent login sessions
+app.set('port', 49652); 
 app.use(compression());
-app.use(cors());
+
+app.use(methodOverride());
+app.use(function(err, req, res, next) {
+  res.send('An error occurs: '+err);
+});
 var storage = multer.diskStorage(
     {
-        destination: '/home/isplusde/public_html/react-admin-panel/img/uploads/',
+        destination: '/Users/leo/Documents/react-admin-restaurant/img/uploads/',
         filename: function ( req, file, cb ) {
             //req.body is empty...
             //How could I get the new_file_name property sent from client here?
@@ -22,24 +39,37 @@ var storage = multer.diskStorage(
         }
     }
 );
-
 var upload = multer({ storage: storage });
-app.set('port', 49652); 
-app.get(['/strongs-dishes','/','/private/','/strong-dish','/add/strong-dish','/entrees','/strong-dish','/add/entree','/edit/strong-dish/*','/edit/entree/*','/edit/entree'], function (req, res) {  
-  res.sendFile(path.join('/home/isplusde/public_html/react-admin-panel/build/index.html'));
-});
-app.use(express.static('/home/isplusde/public_html/react-admin-panel/build'));
-///img/uploads/entrees/
+
+//For Handlebars
+app.set('views', '/Users/leo/Documents/server-react-admin/private/app/views')
+app.engine('html', exphbs({
+    extname: '.html'
+}));
+app.set('view engine', '.html');  
+
+require('./app/route/public.route.js')(app,express);
+require('./app/route/private.route.js')(app,express);
 require('./app/route/strongDish.route.js')(app,router,upload);
 require('./app/route/entree.route.js')(app,router,upload);
+require('./app/route/ingredient.route.js')(app,router,upload);
+require('./app/route/dessert.route.js')(app,router,upload);
+require('./app/route/drink.route.js')(app,router,upload);
+//Models
+var models = require("./app/db/config/config.js");
+ 
+var authRoute = require('./app/route/auth.route.js')(app,passport); 
+  
+//load passport strategies
+ 
+require('./app/db/config/passport/passport.js')(passport, models.user);
 
-app.use(methodOverride());
-app.use(function(err, req, res, next) {
-  res.send('An error occurs: '+err);
+//Sync Database
+models.sequelize.sync().then(function() {
+    console.log('Nice! Database looks fine')
+}).catch(function(err) {
+    console.log(err, "Something went wrong with the Database Update!")
 });
-app.use('/img/entrees/',express.static('/home/isplusde/public_html/react-admin-panel/img/entrees'))
-app.use('/img/',express.static('/home/isplusde/public_html/react-admin-panel/img'));
-app.use('/img/uploads/',express.static('/home/isplusde/public_html/react-admin-panel/img/uploads'));
 
 http.createServer(app, (req, res) => {
     res.set({
@@ -53,5 +83,5 @@ http.createServer(app, (req, res) => {
     })
     res.writeHead(200);
     res.end('hello world\n');
-    console.log('https://isplusdesign.co.cr:49652 !');
+    console.log('http://localhost:49652 !');
 }).listen(49652);

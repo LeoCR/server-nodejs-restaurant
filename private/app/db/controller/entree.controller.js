@@ -34,10 +34,10 @@ exports.create = (req, res) => {
 		category:req.body.category,
 		price:req.body.price 
 	}).then(entree => {		
-		  // Send created customer to client
-		  res.status(200).redirect('/');
+		  // Send created 
+		  res.status(200).send(entree);
 	}); 
-	res.status(200).redirect('/');
+	res.status(200).redirect('/admin/');
 }
 // Update a Customer
 exports.update = (req, res) => {
@@ -45,7 +45,7 @@ exports.update = (req, res) => {
 		idEntree: req.body.idEntree,
 		name: req.body.name,
 		description: req.body.description,
-		picture:'/img/uploads/'+req.file.originalname,
+		picture:req.body.picture,
 		category:req.body.category,
 		price:req.body.price
 	}, 
@@ -54,7 +54,28 @@ exports.update = (req, res) => {
 				idEntree: req.body.idEntree
 		}}).then(entree => {		
 		// Send created customer to client
-		res.status(200).redirect('/');
+		res.status(200).send(entree);
+		
 	});
-	res.status(200).redirect('/');
+	res.status(200).redirect('/admin/');
+};
+// Update a Customer
+exports.updateImg = (req, res) => {
+	Entree.update({  
+	  idEntree: req.body.idEntree,
+	  name: req.body.name,
+	  description: req.body.description,
+	  picture:'/img/uploads/'+req.file.originalname,
+	  category:req.body.category,
+	  price:req.body.price
+  }, 
+	  { 
+		  where: {
+			  idEntree: req.body.idEntree
+	  }}).then(entree => {		
+	  // Send created customer to client
+	  res.status(200).send(entree);
+	  
+  });
+  res.status(200).redirect('/admin/');
 };

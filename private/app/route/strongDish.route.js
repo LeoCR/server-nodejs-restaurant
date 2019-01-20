@@ -6,6 +6,6 @@ module.exports = function(app,router,upload) {
     app.post('/strong-dish/add/',upload.single('picture'),strongDish.create);
     app.get('/api/strong-dish/show/:idStrongDish', strongDish.findById);
     // Update with Id
-    //app.put('/api/strong-dish/update/:idStrongDish', strongDish.update);
-    app.post('/strong-dish/update/', upload.single('picture'),strongDish.update);
+    app.put('/api/strong-dish/update/:idStrongDish', strongDish.update);
+    app.post('/strong-dish/update/', upload.single('picture'),strongDish.updateImg);
 }

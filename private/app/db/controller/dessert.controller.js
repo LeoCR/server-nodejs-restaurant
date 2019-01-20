@@ -1,17 +1,17 @@
 const db = require('../config/config.js');
-const StrongDish = db.strongDish;
+const Dessert = db.dessert;
 // FETCH all Customers
 exports.findAll = (req, res) => {
-	StrongDish.findAll().then(strongDish => {
+	Dessert.findAll().then(dessert => {
 	  // Send all customers to Client
-	  res.send(strongDish);
+	  res.send(dessert);
 	});
 };
 // Delete a Customer by Id
 exports.delete = (req, res) => {
-	const idStrongDish = req.params.id;
-	StrongDish.destroy({
-			where: { idStrongDish: idStrongDish }
+	const idDessert = req.params.id;
+	Dessert.destroy({
+			where: { idDessert: idDessert }
 		}).then(() => {
 			res.status(200).json( { msg: 'Deleted Successfully -> StrongDish Id = '  } );
 		}).catch(err => {
@@ -21,12 +21,11 @@ exports.delete = (req, res) => {
 };
 // Post a Customer
 exports.create = (req, res) => {	
-  StrongDish.create({  
-		idStrongDish: req.body.idStrongDish,
+    Dessert.create({  
+		idDessert: req.body.idDessert,
 		name: req.body.name,
 		description: req.body.description,
 		picture:'/img/uploads/'+req.file.originalname,
-		category:req.body.category,
 		price:req.body.price 
 	}).then(strongDish => {		
 		  // Send created customer to client
@@ -36,39 +35,37 @@ exports.create = (req, res) => {
 };
 // Find a Customer by Id
 exports.findById = (req, res) => {	
-	StrongDish.findById(req.params.idStrongDish).then(dish => {
+	Dessert.findById(req.params.idDessert).then(dish => {
 		res.send(dish);
 	})
 };
 // Update a Customer
 exports.update = (req, res) => {
-	StrongDish.update({  
-		  idStrongDish: req.body.idStrongDish,
+	Dessert.update({  
+		  idDessert: req.body.idDessert,
 		  name: req.body.name,
 		  description: req.body.description,
 		  picture:req.body.picture,
-		  category:req.body.category,
 		  price:req.body.price 
 	  }, 
-	{ where: {idStrongDish: req.body.idStrongDish}}).then(strongDish => {		
+	{ where: {idDessert: req.body.idDessert}}).then(dessert => {		
 			// Send created customer to client
-			res.status(200).send(strongDish);
+			res.status(200).send(dessert);
 	  }); 
 	  res.status(200).redirect('/admin');
 };
 // Update a Customer
 exports.updateImg = (req, res) => {
-  StrongDish.update({  
-		idStrongDish: req.body.idStrongDish,
+    Dessert.update({  
+		idDessert: req.body.idDessert,
 		name: req.body.name,
 		description: req.body.description,
 		picture:'/img/uploads/'+req.file.originalname,
-		category:req.body.category,
 		price:req.body.price 
 	}, 
-  { where: {idStrongDish: req.body.idStrongDish}}).then(strongDish => {		
+  { where: {idDessert: req.body.idDessert}}).then(dessert => {		
 		  // Send created customer to client
-		  res.status(200).send(strongDish);
+		  res.status(200).send(dessert);
 	}); 
 	res.status(200).redirect('/admin');
 };

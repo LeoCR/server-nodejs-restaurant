@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Register Form</title>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="/css/main.css"/>
+</head>
+<body id="body_signup">
+    <main class="container">
+        <div class="d-flex justify-content-center">
+            <div class="col-xs-12 col-lg-6 col-md-7">
+                <form id="signup" name="signup" method="post" action="/signup">
+                    <h1>Register Form</h1>
+                    <div class="form-group">
+                        <label for="email">Email Address</label>
+                        <input name="email" type="email" class="form-control"/>
+                    </div>
+                    <div class="form-group">
+                        <label for="firstname">Firstname</label>
+                        <input name="firstname" type="text" class="form-control"/>
+                    </div>
+                    <div class="form-group">
+                        <label for="lastname">Lastname</label>
+                        <input name="lastname" type="text" class="form-control"/>
+                    </div>
+                    <div class="form-group">
+                        <label for="password">Password</label>
+                        <input name="password" type="password" class="form-control"/>
+                    </div>
+                    <input type="submit" class="btn btn-success" value="Register" />
+                </form>
+            </div>
+        </div>
+    </main>
+</body>
+</html>

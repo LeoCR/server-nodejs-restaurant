@@ -1,0 +1,32 @@
+@import "compass/reset";
+@import "./vendor/bootstrap/bootstrap";
+#body_login{
+    background: url("/img/login-bg.jpg") no-repeat;
+    background-size: cover;
+    background-attachment: fixed;
+    form{
+        p{
+            width: 139px;
+
+            float: left;
+            
+            position: relative;
+        }
+        a{
+            width:200px;
+        }
+    }
+}
+#body_signup{
+    background: url("/img/signup-bg.jpg") no-repeat;
+    background-size: cover;
+    background-attachment: fixed;
+}
+#signin,#signup{
+    padding:20px 10px;
+    margin-top: 15%;
+    background: -moz-linear-gradient(top, rgba(234,234,234,0.92) 0%, rgba(247,247,247,0.88) 100%); /* FF3.6-15 */
+    background: -webkit-linear-gradient(top, rgba(234,234,234,0.92) 0%,rgba(247,247,247,0.88) 100%); /* Chrome10-25,Safari5.1-6 */
+    background: linear-gradient(to bottom, rgba(234,234,234,0.92) 0%,rgba(247,247,247,0.88) 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ebeaeaea', endColorstr='#e0f7f7f7',GradientType=0 ); /* IE6-9 */
+}
