@@ -1,5 +1,4 @@
 const db = require('../config/config.js');
-const sequelize = db.sequelize;
 const Drink = db.drink;
 const Dessert = db.dessert;
 const StrongDish = db.strongDish;
@@ -22,5 +21,29 @@ exports.getAllProducts= (req, res) => {
             });
         })
     });
-   
+};
+// Find a Customer by Id
+exports.findProduct = (req, res) => {	
+    var idProduct=req.params.id;
+    if(idProduct.includes('DRK')){
+        Drink.findById(idProduct).then(drink => {
+            res.send({product:drink});
+        });
+    }
+    else if(idProduct.includes('DESRT')){
+        Dessert.findById(idProduct).then(dessert => {
+            res.send({product:dessert});
+        });
+    }
+	else if(idProduct.includes('BGD')){
+        StrongDish.findById(idProduct).then(strongDish => {
+            res.send({product:strongDish});
+        });
+    }
+    else if(idProduct.includes('ENTR')){
+        Entree.findById(idProduct).then(entree => {
+            res.send({product:entree});
+        });
+    }
+    
 };
