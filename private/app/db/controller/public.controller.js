@@ -3,6 +3,7 @@ const Drink = db.drink;
 const Dessert = db.dessert;
 const StrongDish = db.strongDish;
 const Entree = db.entree;
+const sequelize=db.sequelize;
 exports.getAllProducts= (req, res) => {
     var jsonData={};
     Drink.findAll().then(drink => {
@@ -22,28 +23,40 @@ exports.getAllProducts= (req, res) => {
         })
     });
 };
-// Find a Customer by Id
+// Find a Product by Id
+exports.findIngredients = (req, res) => {	
+    var idDish=req.params.id,
+    sqlFindIngredients="SELECT INGREDIENT.idIngredient,INGREDIENT.name,"+
+   " INGREDIENT.img,INGREDIENT_DISH.idIngredient,"+
+   " INGREDIENT_DISH.idDish FROM INGREDIENT JOIN INGREDIENT_DISH "+
+   " ON INGREDIENT.idIngredient = INGREDIENT_DISH.idIngredient "+
+   " WHERE INGREDIENT_DISH.idDish='"+idDish+"';";
+   sequelize.query(sqlFindIngredients, { type: sequelize.QueryTypes.SELECT})
+   .then(ingredients => {
+        res.send(ingredients);     
+    })
+}
+// Find a Product by Id
 exports.findProduct = (req, res) => {	
     var idProduct=req.params.id;
     if(idProduct.includes('DRK')){
         Drink.findById(idProduct).then(drink => {
-            res.send({product:drink});
+            res.send(drink);
         });
     }
     else if(idProduct.includes('DESRT')){
         Dessert.findById(idProduct).then(dessert => {
-            res.send({product:dessert});
+            res.send(dessert);
         });
     }
 	else if(idProduct.includes('BGD')){
         StrongDish.findById(idProduct).then(strongDish => {
-            res.send({product:strongDish});
+            res.send(strongDish);
         });
     }
     else if(idProduct.includes('ENTR')){
         Entree.findById(idProduct).then(entree => {
-            res.send({product:entree});
+            res.send(entree);
         });
     }
-    
 };
