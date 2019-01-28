@@ -9,9 +9,9 @@ exports.findAll = (req, res) => {
 };
 // Delete a Customer by Id
 exports.delete = (req, res) => {
-	const idEntree = req.params.id;
+	const id = req.params.id;
 	Entree.destroy({
-			where: { idEntree: idEntree }
+			where: { id: id }
 		}).then(() => {
 			res.status(200).json( { msg: 'Deleted Successfully -> Entree Id = '  } );
 		}).catch(err => {
@@ -20,14 +20,14 @@ exports.delete = (req, res) => {
 		});
 };
 exports.findById = (req, res) => {	
-	Entree.findById(req.params.idEntree).then(dish => {
+	Entree.findById(req.params.id).then(dish => {
 		res.send(dish);
 	})
 };
 // Post a Customer
 exports.create = (req, res) => {
 	Entree.create({  
-		idEntree: req.body.idEntree,
+		id: req.body.id,
 		name: req.body.name,
 		description: req.body.description,
 		picture:'/img/uploads/'+req.file.originalname,
@@ -42,7 +42,7 @@ exports.create = (req, res) => {
 // Update a Customer
 exports.update = (req, res) => {
   	Entree.update({  
-		idEntree: req.body.idEntree,
+		id: req.body.id,
 		name: req.body.name,
 		description: req.body.description,
 		picture:req.body.picture,
@@ -51,7 +51,7 @@ exports.update = (req, res) => {
 	}, 
 		{ 
 			where: {
-				idEntree: req.body.idEntree
+				id: req.body.id
 		}}).then(entree => {		
 		// Send created customer to client
 		res.status(200).send(entree);
@@ -62,7 +62,7 @@ exports.update = (req, res) => {
 // Update a Customer
 exports.updateImg = (req, res) => {
 	Entree.update({  
-	  idEntree: req.body.idEntree,
+	  id: req.body.id,
 	  name: req.body.name,
 	  description: req.body.description,
 	  picture:'/img/uploads/'+req.file.originalname,
@@ -71,7 +71,7 @@ exports.updateImg = (req, res) => {
   }, 
 	  { 
 		  where: {
-			  idEntree: req.body.idEntree
+			  id: req.body.id
 	  }}).then(entree => {		
 	  // Send created customer to client
 	  res.status(200).send(entree);

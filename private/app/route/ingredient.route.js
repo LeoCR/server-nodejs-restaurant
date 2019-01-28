@@ -4,8 +4,8 @@ module.exports = function(app,router,upload) {
     app.get('/api/ingredients', ingredient.findAll);
     app.delete('/api/ingredient/delete/:id', ingredient.delete);
     app.post('/ingredient/add/', upload.single('img'),ingredient.create);
-    app.get('/api/ingredient/show/:idIngredient', ingredient.findById);
+    app.get('/api/ingredient/show/:id', ingredient.findById);
     // Update
-    app.put('/api/ingredient/update/:idIngredient', ingredient.update);
+    app.put('/api/ingredient/update/:id', ingredient.update);
     app.post('/ingredient/update/', upload.single('img'), ingredient.updateImg);
 }

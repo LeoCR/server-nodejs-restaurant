@@ -9,9 +9,9 @@ exports.findAll = (req, res) => {
 };
 // Delete a Customer by Id
 exports.delete = (req, res) => {
-	const idDrink = req.params.id;
+	const id = req.params.id;
 	Drink.destroy({
-			where: { idDrink: idDrink }
+			where: { id: id }
 		}).then(() => {
 			res.status(200).json( { msg: 'Deleted Successfully -> Drink Id = '  } );
 		}).catch(err => {
@@ -22,7 +22,7 @@ exports.delete = (req, res) => {
 // Post a Customer
 exports.create = (req, res) => {	
   Drink.create({  
-		idDrink: req.body.idDrink,
+		id: req.body.id,
 		name: req.body.name,
 		description: req.body.description,
 		picture:'/img/uploads/'+req.file.originalname,
@@ -35,20 +35,20 @@ exports.create = (req, res) => {
 };
 // Find a Customer by Id
 exports.findById = (req, res) => {	
-	Drink.findById(req.params.idDrink).then(drink => {
+	Drink.findById(req.params.id).then(drink => {
 		res.send(drink);
 	})
 };
 // Update a Customer
 exports.update = (req, res) => {
 	Drink.update({  
-		  idDrink: req.body.idDrink,
+		  id: req.body.id,
 		  name: req.body.name,
 		  description: req.body.description,
 		  picture:req.body.picture,
 		  price:req.body.price 
 	  }, 
-	{ where: {idDrink: req.body.idDrink}}).then(drink => {		
+	{ where: {id: req.body.id}}).then(drink => {		
 			// Send created customer to client
 			res.status(200).send(drink);
 	  }); 
@@ -57,13 +57,13 @@ exports.update = (req, res) => {
 // Update a Customer
 exports.updateImg = (req, res) => {
   Drink.update({  
-		idDrink: req.body.idDrink,
+		id: req.body.id,
 		name: req.body.name,
 		description: req.body.description,
 		picture:'/img/uploads/'+req.file.originalname,
 		price:req.body.price 
 	}, 
-  { where: {idDrink: req.body.idDrink}}).then(drink => {		
+  { where: {id: req.body.id}}).then(drink => {		
 		  // Send created customer to client
 		  res.status(200).send(drink);
 	}); 

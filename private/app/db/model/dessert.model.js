@@ -1,6 +1,6 @@
 module.exports = (sequelize, Sequelize) => {
     const DESSERT = sequelize.define('DESSERT', {
-        idDessert: {
+        id: {
             type: Sequelize.STRING,
             primaryKey: true
         },

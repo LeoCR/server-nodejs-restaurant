@@ -1,6 +1,6 @@
 module.exports = (sequelize, Sequelize) => {
     const INGREDIENT = sequelize.define('INGREDIENT', {
-        idIngredient: {
+        id: {
             type: Sequelize.STRING,
             primaryKey: true
         },

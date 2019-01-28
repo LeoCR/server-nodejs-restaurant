@@ -9,9 +9,9 @@ exports.findAll = (req, res) => {
 };
 // Delete a Customer by Id
 exports.delete = (req, res) => {
-	const idDessert = req.params.id;
+	const id = req.params.id;
 	Dessert.destroy({
-			where: { idDessert: idDessert }
+			where: { id: id }
 		}).then(() => {
 			res.status(200).json( { msg: 'Deleted Successfully -> StrongDish Id = '  } );
 		}).catch(err => {
@@ -22,7 +22,7 @@ exports.delete = (req, res) => {
 // Post a Customer
 exports.create = (req, res) => {	
     Dessert.create({  
-		idDessert: req.body.idDessert,
+		id: req.body.id,
 		name: req.body.name,
 		description: req.body.description,
 		picture:'/img/uploads/'+req.file.originalname,
@@ -35,20 +35,20 @@ exports.create = (req, res) => {
 };
 // Find a Customer by Id
 exports.findById = (req, res) => {	
-	Dessert.findById(req.params.idDessert).then(dish => {
+	Dessert.findById(req.params.id).then(dish => {
 		res.send(dish);
 	})
 };
 // Update a Customer
 exports.update = (req, res) => {
 	Dessert.update({  
-		  idDessert: req.body.idDessert,
+		  id: req.body.id,
 		  name: req.body.name,
 		  description: req.body.description,
 		  picture:req.body.picture,
 		  price:req.body.price 
 	  }, 
-	{ where: {idDessert: req.body.idDessert}}).then(dessert => {		
+	{ where: {id: req.body.id}}).then(dessert => {		
 			// Send created customer to client
 			res.status(200).send(dessert);
 	  }); 
@@ -57,13 +57,13 @@ exports.update = (req, res) => {
 // Update a Customer
 exports.updateImg = (req, res) => {
     Dessert.update({  
-		idDessert: req.body.idDessert,
+		id: req.body.id,
 		name: req.body.name,
 		description: req.body.description,
 		picture:'/img/uploads/'+req.file.originalname,
 		price:req.body.price 
 	}, 
-  { where: {idDessert: req.body.idDessert}}).then(dessert => {		
+  { where: {id: req.body.id}}).then(dessert => {		
 		  // Send created customer to client
 		  res.status(200).send(dessert);
 	}); 

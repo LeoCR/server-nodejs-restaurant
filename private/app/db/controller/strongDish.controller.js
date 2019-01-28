@@ -9,9 +9,9 @@ exports.findAll = (req, res) => {
 };
 // Delete a Customer by Id
 exports.delete = (req, res) => {
-	const idStrongDish = req.params.id;
+	const id = req.params.id;
 	StrongDish.destroy({
-			where: { idStrongDish: idStrongDish }
+			where: { id: id }
 		}).then(() => {
 			res.status(200).json( { msg: 'Deleted Successfully -> StrongDish Id = '  } );
 		}).catch(err => {
@@ -22,7 +22,7 @@ exports.delete = (req, res) => {
 // Post a Customer
 exports.create = (req, res) => {	
   StrongDish.create({  
-		idStrongDish: req.body.idStrongDish,
+		id: req.body.id,
 		name: req.body.name,
 		description: req.body.description,
 		picture:'/img/uploads/'+req.file.originalname,
@@ -36,21 +36,21 @@ exports.create = (req, res) => {
 };
 // Find a Customer by Id
 exports.findById = (req, res) => {	
-	StrongDish.findById(req.params.idStrongDish).then(dish => {
+	StrongDish.findById(req.params.id).then(dish => {
 		res.send(dish);
 	})
 };
 // Update a Customer
 exports.update = (req, res) => {
 	StrongDish.update({  
-		  idStrongDish: req.body.idStrongDish,
+		  id: req.body.id,
 		  name: req.body.name,
 		  description: req.body.description,
 		  picture:req.body.picture,
 		  category:req.body.category,
 		  price:req.body.price 
 	  }, 
-	{ where: {idStrongDish: req.body.idStrongDish}}).then(strongDish => {		
+	{ where: {id: req.body.id}}).then(strongDish => {		
 			// Send created customer to client
 			res.status(200).send(strongDish);
 	  }); 
@@ -59,14 +59,14 @@ exports.update = (req, res) => {
 // Update a Customer
 exports.updateImg = (req, res) => {
   StrongDish.update({  
-		idStrongDish: req.body.idStrongDish,
+		id: req.body.id,
 		name: req.body.name,
 		description: req.body.description,
 		picture:'/img/uploads/'+req.file.originalname,
 		category:req.body.category,
 		price:req.body.price 
 	}, 
-  { where: {idStrongDish: req.body.idStrongDish}}).then(strongDish => {		
+  { where: {id: req.body.id}}).then(strongDish => {		
 		  // Send created customer to client
 		  res.status(200).send(strongDish);
 	}); 

@@ -1,6 +1,6 @@
 module.exports = (sequelize, Sequelize) => {
     const STRONG_DISH = sequelize.define('STRONG_DISH', {
-        idStrongDish: {
+        id: {
             type: Sequelize.STRING,
             primaryKey: true
         },

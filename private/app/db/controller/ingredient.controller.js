@@ -9,9 +9,9 @@ exports.findAll = (req, res) => {
 };
 // Delete a Customer by Id
 exports.delete = (req, res) => {
-	const idIngredient = req.params.id;
+	const id = req.params.id;
 	Ingredient.destroy({
-			where: { idIngredient: idIngredient }
+			where: { id: id }
 		}).then(() => {
 			res.status(200).json( { msg: 'Deleted Successfully -> Ingredient Id = '  } );
 		}).catch(err => {
@@ -20,14 +20,14 @@ exports.delete = (req, res) => {
 		});
 };
 exports.findById = (req, res) => {	
-	Ingredient.findById(req.params.idIngredient).then(ingredient => {
+	Ingredient.findById(req.params.id).then(ingredient => {
 		res.send(ingredient);
 	})
 };
 // Post a Customer
 exports.create = (req, res) => {
 	Ingredient.create({  
-		idIngredient: req.body.idIngredient,
+		id: req.body.id,
 		name: req.body.name,
 		img: '/img/uploads/'+req.file.originalname
 		 
@@ -40,13 +40,13 @@ exports.create = (req, res) => {
 // Update a Customer
 exports.update = (req, res) => {
   	Ingredient.update({  
-		idIngredient: req.body.idIngredient,
+		id: req.body.id,
 		name: req.body.name,
 		img:req.body.img
 	}, 
 		{ 
 			where: {
-				idIngredient: req.body.idIngredient
+				id: req.body.id
 		}}).then(ingredient => {		
 		// Send created customer to client
 		res.status(200).send(ingredient);
@@ -57,13 +57,13 @@ exports.update = (req, res) => {
 // Update a Customer
 exports.updateImg = (req, res) => {
 	Ingredient.update({  
-	  idIngredient: req.body.idIngredient,
+	  id: req.body.id,
 	  name: req.body.name,
 	  img: '/img/uploads/'+req.file.originalname  
   }, 
 	  { 
 		  where: {
-			  idIngredient: req.body.idIngredient
+			  id: req.body.id
 	  }}).then(ingredient => {		
 	  // Send created customer to client
 	  res.status(200).send(ingredient);
