@@ -26,10 +26,10 @@ exports.getAllProducts= (req, res) => {
 // Find a Product by Id
 exports.findIngredients = (req, res) => {	
     var idDish=req.params.id,
-    sqlFindIngredients="SELECT INGREDIENT.idIngredient,INGREDIENT.name,"+
+    sqlFindIngredients="SELECT INGREDIENT.id,INGREDIENT.name,"+
    " INGREDIENT.img,INGREDIENT_DISH.idIngredient,"+
    " INGREDIENT_DISH.idDish FROM INGREDIENT JOIN INGREDIENT_DISH "+
-   " ON INGREDIENT.idIngredient = INGREDIENT_DISH.idIngredient "+
+   " ON INGREDIENT.id = INGREDIENT_DISH.idIngredient "+
    " WHERE INGREDIENT_DISH.idDish='"+idDish+"';";
    sequelize.query(sqlFindIngredients, { type: sequelize.QueryTypes.SELECT})
    .then(ingredients => {
