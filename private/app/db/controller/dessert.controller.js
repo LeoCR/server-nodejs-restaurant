@@ -1,13 +1,13 @@
 const db = require('../config/config.js');
 const Dessert = db.dessert;
-// FETCH all Customers
+// FETCH all Desserts
 exports.findAll = (req, res) => {
 	Dessert.findAll().then(dessert => {
 	  // Send all customers to Client
 	  res.send(dessert);
 	});
 };
-// Delete a Customer by Id
+// Delete a Dessert by Id
 exports.delete = (req, res) => {
 	const id = req.params.id;
 	Dessert.destroy({
@@ -19,7 +19,7 @@ exports.delete = (req, res) => {
 			res.status(500).json({msg: "error", details: err});
 		});
 };
-// Post a Customer
+// Post a Dessert
 exports.create = (req, res) => {	
     Dessert.create({  
 		id: req.body.id,
@@ -31,15 +31,15 @@ exports.create = (req, res) => {
 		  // Send created customer to client
 		  res.status(200).send(strongDish);
 	}); 
-	res.status(200).redirect('/admin');
+	//res.status(200).redirect('/admin');
 };
-// Find a Customer by Id
+// Find a Dessert by Id
 exports.findById = (req, res) => {	
 	Dessert.findById(req.params.id).then(dish => {
 		res.send(dish);
 	})
 };
-// Update a Customer
+// Update a Dessert
 exports.update = (req, res) => {
 	Dessert.update({  
 		  id: req.body.id,
@@ -52,9 +52,9 @@ exports.update = (req, res) => {
 			// Send created customer to client
 			res.status(200).send(dessert);
 	  }); 
-	  res.status(200).redirect('/admin');
+	  //res.status(200).redirect('/admin');
 };
-// Update a Customer
+// Update a Dessert
 exports.updateImg = (req, res) => {
     Dessert.update({  
 		id: req.body.id,
@@ -67,5 +67,5 @@ exports.updateImg = (req, res) => {
 		  // Send created customer to client
 		  res.status(200).send(dessert);
 	}); 
-	res.status(200).redirect('/admin');
+	//res.status(200).redirect('/admin');
 };

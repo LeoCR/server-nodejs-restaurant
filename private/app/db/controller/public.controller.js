@@ -23,6 +23,7 @@ exports.getAllProducts= (req, res) => {
         })
     });
 };
+//
 // Find a Product by Id
 exports.findIngredients = (req, res) => {	
     var idDish=req.params.id,

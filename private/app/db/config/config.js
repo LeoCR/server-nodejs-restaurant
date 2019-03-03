@@ -1,5 +1,5 @@
 const Sequelize = require('sequelize');
-const sequelize = new Sequelize('restaurant_redux', 'root', '79461313', {
+const sequelize = new Sequelize('restaurant_ui', 'root', '79461313', {
   host: 'localhost',
   dialect: 'mysql',
   define: {
@@ -27,4 +27,6 @@ db.ingredient = require('../model/ingredient.model.js')(sequelize, Sequelize);
 db.dessert=require('../model/dessert.model.js')(sequelize, Sequelize);
 db.user=require('../model/user.model.js')(sequelize, Sequelize);
 db.drink=require('../model/drink.model.js')(sequelize, Sequelize);
+db.client=require('../model/client.model.js')(sequelize, Sequelize);
+
 module.exports = db;

@@ -31,7 +31,7 @@ exports.create = (req, res) => {
 		  // Send created customer to client
 		  res.status(200).send(drink);
 	}); 
-	res.status(200).redirect('/admin');
+	//res.status(200).redirect('/admin');
 };
 // Find a Customer by Id
 exports.findById = (req, res) => {	

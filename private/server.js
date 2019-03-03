@@ -42,7 +42,7 @@ var storage = multer.diskStorage(
 var upload = multer({ storage: storage });
 
 //For Handlebars
-app.set('views', '/Users/leo/Documents/server-react-admin/private/app/views')
+app.set('views', '/Users/leo/Documents/server-restaurant-admin/private/app/views')
 app.engine('html', exphbs({
     extname: '.html'
 }));
@@ -55,6 +55,7 @@ require('./app/route/entree.route.js')(app,router,upload);
 require('./app/route/ingredient.route.js')(app,router,upload);
 require('./app/route/dessert.route.js')(app,router,upload);
 require('./app/route/drink.route.js')(app,router,upload);
+require('./app/route/client.route.js')(app,router,upload);
 //Models
 var models = require("./app/db/config/config.js");
  

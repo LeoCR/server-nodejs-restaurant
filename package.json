@@ -1,5 +1,5 @@
 {
-  "name": "server-react-admin",
+  "name": "server-spring-admin",
   "version": "1.0.0",
   "description": "Server Expressjs ",
   "main": "server.js",
