@@ -6,7 +6,8 @@ module.exports = (sequelize, Sequelize) => {
         },
         fullName:Sequelize.STRING,
         email:Sequelize.STRING,
-        cellphone: Sequelize.STRING,
+        country: Sequelize.STRING,
+        postalCode: Sequelize.STRING,
         },{
             timestamps: false
     });

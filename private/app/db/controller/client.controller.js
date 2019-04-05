@@ -26,7 +26,8 @@ exports.create = (req, res) => {
         idClient: req.body.idClient,
         fullName: req.body.fullName,
         email: req.body.email,
-        cellphone:req.body.cellphone 
+				country:req.body.country,
+				postalCode:req.body.postalCode 
 	}).then(client => {		
 		  // Send created customer to client
 		  res.status(200).send(client);
@@ -45,7 +46,8 @@ exports.update = (req, res) => {
       idClient: req.body.idClient,
 		  fullName: req.body.fullName,
 		  email: req.body.email,
-		  cellphone:req.body.cellphone
+		  country:req.body.country,
+			postalCode:req.body.postalCode
 	  }, 
 	{ where: {idClient: req.body.idClient}}).then(client => {		
 			// Send created customer to client

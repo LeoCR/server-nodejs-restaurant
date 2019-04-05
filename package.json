@@ -4,7 +4,8 @@
   "description": "Server Expressjs ",
   "main": "server.js",
   "scripts": {
-    "start": "nodemon ./private/server.js"
+    "start": "nodemon ./private/server.js",
+    "test": "nodemon ./private/test.js"
   },
   "author": "Leonardo Aranibar Sanchez",
   "license": "ISC",

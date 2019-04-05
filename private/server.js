@@ -42,32 +42,30 @@ var storage = multer.diskStorage(
 var upload = multer({ storage: storage });
 
 //For Handlebars
-app.set('views', '/Users/leo/Documents/server-restaurant-admin/private/app/views')
+//app.set('views', '/Users/leo/Documents/server-restaurant-admin/private/app/views')
+app.set('views', path.resolve(__dirname+'/app/views'))
 app.engine('html', exphbs({
     extname: '.html'
 }));
 app.set('view engine', '.html');  
-
-require('./app/route/public.route.js')(app,express);
-require('./app/route/private.route.js')(app,express);
-require('./app/route/strongDish.route.js')(app,router,upload);
-require('./app/route/entree.route.js')(app,router,upload);
-require('./app/route/ingredient.route.js')(app,router,upload);
-require('./app/route/dessert.route.js')(app,router,upload);
-require('./app/route/drink.route.js')(app,router,upload);
-require('./app/route/client.route.js')(app,router,upload);
 //Models
-var models = require("./app/db/config/config.js");
- 
-var authRoute = require('./app/route/auth.route.js')(app,passport); 
-  
+var models = require(path.resolve(__dirname+"/app/db/config/config.js"));
+
+require(path.resolve(__dirname+'/app/route/public.route.js'))(app,express);
+require(path.resolve(__dirname+'/app/route/private.route.js'))(app,express);
+require(path.resolve(__dirname+'/app/route/strongDish.route.js'))(app,router,upload);
+require(path.resolve(__dirname+'/app/route/entree.route.js'))(app,router,upload);
+require(path.resolve(__dirname+'/app/route/ingredient.route.js'))(app,router,upload);
+require(path.resolve(__dirname+'/app/route/dessert.route.js'))(app,router,upload);
+require(path.resolve(__dirname+'/app/route/drink.route.js'))(app,router,upload);
+require(path.resolve(__dirname+'/app/route/client.route.js'))(app,router,upload);
+require(path.resolve(__dirname+'/app/route/auth.route.js'))(app,passport); 
 //load passport strategies
- 
-require('./app/db/config/passport/passport.js')(passport, models.user);
+require(path.resolve(__dirname+'/app/db/config/passport/passport.js'))(passport, models.user);
 
 //Sync Database
 models.sequelize.sync().then(function() {
-    console.log('Nice! Database looks fine')
+    console.log('http://localhost:49652/ works')
 }).catch(function(err) {
     console.log(err, "Something went wrong with the Database Update!")
 });
