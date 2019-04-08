@@ -31,7 +31,7 @@ app.use(function(err, req, res, next) {
 });
 var storage = multer.diskStorage(
     {
-        destination: '/Users/leo/Documents/react-admin-restaurant/img/uploads/',
+        destination: path.resolve(__dirname+'/../../react-admin-restaurant/img/uploads/'),
         filename: function ( req, file, cb ) {
             //req.body is empty...
             //How could I get the new_file_name property sent from client here?
@@ -51,15 +51,15 @@ app.set('view engine', '.html');
 //Models
 var models = require(path.resolve(__dirname+"/app/db/config/config.js"));
 
-require(path.resolve(__dirname+'/app/route/public.route.js'))(app,express);
-require(path.resolve(__dirname+'/app/route/private.route.js'))(app,express);
-require(path.resolve(__dirname+'/app/route/strongDish.route.js'))(app,router,upload);
-require(path.resolve(__dirname+'/app/route/entree.route.js'))(app,router,upload);
-require(path.resolve(__dirname+'/app/route/ingredient.route.js'))(app,router,upload);
-require(path.resolve(__dirname+'/app/route/dessert.route.js'))(app,router,upload);
-require(path.resolve(__dirname+'/app/route/drink.route.js'))(app,router,upload);
-require(path.resolve(__dirname+'/app/route/client.route.js'))(app,router,upload);
-require(path.resolve(__dirname+'/app/route/auth.route.js'))(app,passport); 
+require(path.resolve(__dirname+'/app/route/public.route.js'))(app,express,path);
+require(path.resolve(__dirname+'/app/route/private.route.js'))(app,express,path);
+require(path.resolve(__dirname+'/app/route/strongDish.route.js'))(app,router,upload,path);
+require(path.resolve(__dirname+'/app/route/entree.route.js'))(app,router,upload,path);
+require(path.resolve(__dirname+'/app/route/ingredient.route.js'))(app,router,upload,path);
+require(path.resolve(__dirname+'/app/route/dessert.route.js'))(app,router,upload,path);
+require(path.resolve(__dirname+'/app/route/drink.route.js'))(app,router,upload,path);
+require(path.resolve(__dirname+'/app/route/client.route.js'))(app,router,upload,path);
+require(path.resolve(__dirname+'/app/route/auth.route.js'))(app,passport,path); 
 //load passport strategies
 require(path.resolve(__dirname+'/app/db/config/passport/passport.js'))(passport, models.user);
 

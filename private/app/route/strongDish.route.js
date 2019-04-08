@@ -1,4 +1,4 @@
-module.exports = function(app,router,upload) {
+module.exports = function(app,router,upload,path) {
     const strongDish = require('../db/controller/strongDish.controller.js'); 
     // Retrieve all 
     app.get('/api/strongs-dishes', strongDish.findAll);

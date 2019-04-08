@@ -1,4 +1,4 @@
-module.exports = function(app) {
+module.exports = function(app,path) {
     const client = require('../db/controller/client.controller.js'); 
     // Retrieve all 
     app.get('/api/client', isLoggedIn,client.findAll); 

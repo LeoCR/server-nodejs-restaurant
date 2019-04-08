@@ -1,4 +1,4 @@
-module.exports = function(app,router,upload) {
+module.exports = function(app,router,upload,path) {
     const entree = require('../db/controller/entree.controller.js'); 
     // Retrieve all 
     app.get('/api/entrees', entree.findAll);

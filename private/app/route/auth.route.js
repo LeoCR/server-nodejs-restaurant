@@ -1,6 +1,5 @@
-var authController = require('../db/controller/auth.controller.js');
- 
-module.exports = function(app, passport) {
+module.exports = function(app, passport,path) {
+    var authController = require(path.resolve(__dirname+'/../db/controller/auth.controller.js'));
     app.get('/signup', authController.signup);
     app.get('/signin', authController.signin);
     app.post('/signup', passport.authenticate('local-signup', {
@@ -19,7 +18,7 @@ module.exports = function(app, passport) {
         '/admin/entrees','/admin/strong-dish','/admin/add/entree','/admin/edit/strong-dish/*','/admin/edit/dessert/*','/admin/edit/drink/*',
         '/admin/edit/entree/*','/admin/edit/entree'
         ], isLoggedIn, function (req, res) {  
-        res.sendFile('/Users/leo/Documents/react-admin-restaurant/build/index.html');
+        res.sendFile(path.resolve(__dirname+'/../../../../react-admin-restaurant/build/index.html'));
     });
     function isLoggedIn(req, res, next) {
         if (req.isAuthenticated()){
@@ -27,5 +26,4 @@ module.exports = function(app, passport) {
         }
         res.redirect('/signin');
     }
- 
 }

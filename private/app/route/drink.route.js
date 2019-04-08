@@ -1,4 +1,4 @@
-module.exports = function(app,router,upload) {
+module.exports = function(app,router,upload,path) {
     const drink = require('../db/controller/drink.controller.js'); 
     // Retrieve all 
     app.get('/api/drinks', drink.findAll);
