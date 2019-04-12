@@ -1,5 +1,5 @@
 module.exports = function(app,router,upload,path) {
-    const strongDish = require('../db/controller/strongDish.controller.js'); 
+    const strongDish = require(path.resolve(__dirname+'/../db/controller/strongDish.controller.js')); 
     // Retrieve all 
     app.get('/api/strongs-dishes', strongDish.findAll);
     app.delete('/api/strongs-dish/delete/:id', strongDish.delete);

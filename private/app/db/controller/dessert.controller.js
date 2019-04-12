@@ -1,5 +1,6 @@
-const db = require('../config/config.js');
-const Dessert = db.dessert;
+const path = require('path'), 
+db = require(path.resolve(__dirname+'/../config/config.js')),
+Dessert = db.dessert;
 // FETCH all Desserts
 exports.findAll = (req, res) => {
 	Dessert.findAll().then(dessert => {

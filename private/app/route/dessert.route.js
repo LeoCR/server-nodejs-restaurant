@@ -1,5 +1,5 @@
 module.exports = function(app,router,upload,path) {
-    const dessert = require('../db/controller/dessert.controller.js'); 
+    const dessert = require(path.resolve(__dirname+'/../db/controller/dessert.controller.js')); 
     // Retrieve all 
     app.get('/api/desserts', dessert.findAll);
     app.delete('/api/dessert/delete/:id',isLoggedIn, dessert.delete);

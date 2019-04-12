@@ -1,4 +1,4 @@
-var express = require('express'),
+const express = require('express'),
 path = require('path'), 
 app = express(),
 http = require('http'),
@@ -11,6 +11,7 @@ exphbs  = require('express-handlebars'),
 passport = require('passport'),
 cors = require('cors'),
 session = require('express-session');
+
 app.use(cors());
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(bodyParser.json());

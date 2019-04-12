@@ -1,5 +1,6 @@
-const db = require('../config/config.js');
-const Ingredient = db.ingredient;
+const path = require('path'), 
+db = require(path.resolve(__dirname+'/../config/config.js')),
+Ingredient = db.ingredient;
 // FETCH all Customers
 exports.findAll = (req, res) => {
 	Ingredient.findAll().then(ingredient => {

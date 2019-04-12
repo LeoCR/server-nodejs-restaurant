@@ -1,5 +1,5 @@
-module.exports = function(app,path) {
-    const client = require('../db/controller/client.controller.js'); 
+module.exports = function(app,router,upload,path) {
+    const client = require(path.resolve(__dirname+'/../db/controller/client.controller.js')); 
     // Retrieve all 
     app.get('/api/client', isLoggedIn,client.findAll); 
     app.delete('/api/client/delete/:idClient', isLoggedIn,client.delete);

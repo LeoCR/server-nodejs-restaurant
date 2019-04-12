@@ -1,6 +1,7 @@
-const db = require('../config/config.js');
-const Client = db.client;
-const sequelize=db.sequelize;
+const path = require('path'), 
+db = require(path.resolve(__dirname+'/../config/config.js')),
+Client = db.client,
+sequelize=db.sequelize;
 // FETCH all Customers
 exports.findAll = (req, res) => {
 	Client.findAll().then(client => {

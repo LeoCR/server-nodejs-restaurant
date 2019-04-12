@@ -1,4 +1,5 @@
 const Sequelize = require('sequelize');
+const path = require('path');
 const sequelize = new Sequelize('restaurant_ui', 'root', '79461313', {
   host: 'localhost',
   dialect: 'mysql',
@@ -21,12 +22,12 @@ const db = {};
 
 db.Sequelize = Sequelize;
 db.sequelize = sequelize;
-db.entree = require('../model/entree.model.js')(sequelize, Sequelize);
-db.strongDish = require('../model/strongDish.model.js')(sequelize, Sequelize);
-db.ingredient = require('../model/ingredient.model.js')(sequelize, Sequelize);
-db.dessert=require('../model/dessert.model.js')(sequelize, Sequelize);
-db.user=require('../model/user.model.js')(sequelize, Sequelize);
-db.drink=require('../model/drink.model.js')(sequelize, Sequelize);
-db.client=require('../model/client.model.js')(sequelize, Sequelize);
+db.entree = require(path.resolve(__dirname+'/../model/entree.model.js'))(sequelize, Sequelize);
+db.strongDish = require(path.resolve(__dirname+'/../model/strongDish.model.js'))(sequelize, Sequelize);
+db.ingredient = require(path.resolve(__dirname+'/../model/ingredient.model.js'))(sequelize, Sequelize);
+db.dessert=require(path.resolve(__dirname+'/../model/dessert.model.js'))(sequelize, Sequelize);
+db.user=require(path.resolve(__dirname+'/../model/user.model.js'))(sequelize, Sequelize);
+db.drink=require(path.resolve(__dirname+'/../model/drink.model.js'))(sequelize, Sequelize);
+db.client=require(path.resolve(__dirname+'/../model/client.model.js'))(sequelize, Sequelize);
 
 module.exports = db;

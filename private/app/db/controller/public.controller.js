@@ -1,9 +1,10 @@
-const db = require('../config/config.js');
-const Drink = db.drink;
-const Dessert = db.dessert;
-const StrongDish = db.strongDish;
-const Entree = db.entree;
-const sequelize=db.sequelize;
+const path = require('path'), 
+db = require(path.resolve(__dirname+'/../config/config.js')),
+Drink = db.drink,
+Dessert = db.dessert,
+StrongDish = db.strongDish,
+Entree = db.entree,
+sequelize=db.sequelize;
 exports.getAllProducts= (req, res) => {
     var jsonData={};
     Drink.findAll().then(drink => {

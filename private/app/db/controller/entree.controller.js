@@ -1,5 +1,6 @@
-const db = require('../config/config.js');
-const Entree = db.entree;
+const path = require('path'), 
+db = require(path.resolve(__dirname+'/../config/config.js')),
+Entree = db.entree;
 // FETCH all Customers
 exports.findAll = (req, res) => {
 	Entree.findAll().then(entree => {

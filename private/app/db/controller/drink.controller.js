@@ -1,5 +1,7 @@
-const db = require('../config/config.js');
-const Drink = db.drink;
+const path = require('path'), 
+db = require(path.resolve(__dirname+'/../config/config.js')),
+sequelize=db.sequelize,
+Drink = db.drink;
 // FETCH all Customers
 exports.findAll = (req, res) => {
 	Drink.findAll().then(drink => {

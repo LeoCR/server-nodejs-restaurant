@@ -1,5 +1,5 @@
 module.exports = function(app,router,upload,path) {
-    const ingredient = require('../db/controller/ingredient.controller.js'); 
+    const ingredient = require(path.resolve(__dirname+'/../db/controller/ingredient.controller.js')); 
     // Retrieve all 
     app.get('/api/ingredients', ingredient.findAll);
     app.delete('/api/ingredient/delete/:id', ingredient.delete);

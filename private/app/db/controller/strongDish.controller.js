@@ -1,5 +1,6 @@
-const db = require('../config/config.js');
-const StrongDish = db.strongDish;
+const path = require('path'), 
+db = require(path.resolve(__dirname+'/../config/config.js')),
+StrongDish = db.strongDish;
 // FETCH all Customers
 exports.findAll = (req, res) => {
 	StrongDish.findAll().then(strongDish => {

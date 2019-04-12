@@ -1,5 +1,5 @@
 module.exports = function(app,express,path) {
-    const publicRoute = require('../db/controller/public.controller.js'); 
+    const publicRoute = require(path.resolve(__dirname+'/../db/controller/public.controller.js')); 
     app.get(['/','/drinks/:id','/checkout'],function(req,res){
         res.status(200).sendFile(path.resolve(__dirname+'/../../../../react-redux-shopping-cart-restaurant/build/index.html'));
     });
