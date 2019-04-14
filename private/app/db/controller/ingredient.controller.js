@@ -3,7 +3,11 @@ db = require(path.resolve(__dirname+'/../config/config.js')),
 Ingredient = db.ingredient;
 // FETCH all Customers
 exports.findAll = (req, res) => {
-	Ingredient.findAll().then(ingredient => {
+	Ingredient.findAll({
+		order: [
+      ['name', 'ASC'],
+    ]
+	}).then(ingredient => {
 	  // Send all customers to Client
 	  res.send(ingredient);
 	});
