@@ -7,7 +7,7 @@ module.exports = function(app,express,path) {
     app.get('/api/getProducts',publicRoute.getAllProducts);
     app.get('/api/product/:id',publicRoute.findProduct);
     app.get('/api/product/ingredients/:id',publicRoute.findIngredients);
-    app.get('/checkout',function(req,res){
+    app.get(['/checkout','/checkout/payment'],function(req,res){
         res.status(200).sendFile(path.resolve(__dirname+'/../../../../react-redux-checkout-restaurant/build/index.html'))
     })
     app.use('/static/',express.static(path.resolve(__dirname+'/../../../../react-redux-checkout-restaurant/build/static/')));
