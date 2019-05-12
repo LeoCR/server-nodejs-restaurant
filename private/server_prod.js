@@ -10,7 +10,21 @@ methodOverride = require('method-override'),
 exphbs  = require('express-handlebars'),
 passport = require('passport'),
 cors = require('cors'),
-session = require('express-session');
+session = require('express-session'),
+FacebookStrategy= require('passport-facebook');
+
+var fbOpts={
+  clientID: '720204288362847',
+  clientSecret: 'feef2e093911b66519d0169ebdeee6d5',
+  callbackURL: "https://server-restaurant-leocr2015.c9users.io:8080/auth/facebook/callback",
+  enableProof: true
+};
+var fbCallback=function(accessToken, refreshToken, profile, done) {
+      console.log('accessToken', accessToken);
+      console.log('refreshToken', refreshToken);
+      console.log('profile',profile);
+      done(null, profile);
+};
 
 app.use(cors());
 app.use(bodyParser.urlencoded({extended: true}));
@@ -23,7 +37,24 @@ app.use(session({
 })); // session secret
 app.use(passport.initialize());
 app.use(passport.session()); // persistent login sessions
-app.set('port', 49652); 
+passport.serializeUser(function(user, done) {
+  done(null, user);
+});
+passport.deserializeUser(function(obj, done) {
+done(null, obj);
+});
+ 
+passport.use(new FacebookStrategy(fbOpts,fbCallback));  
+app.get('/auth/facebook', passport.authenticate('facebook',{scope:['email']}));
+/* 
+    Facebook will redirect the user to this URL after approval.  Finish the
+ authentication process by attempting to obtain an access token.  If
+ access was granted, the user will be logged in.  Otherwise,
+ authentication has failed.
+*/
+app.get('/auth/facebook/callback',
+  passport.authenticate('facebook', { successRedirect: '/',
+                                      failureRedirect: '/login' }));
 app.use(compression());
 
 app.use(methodOverride());
@@ -48,7 +79,8 @@ app.set('views', path.resolve(__dirname+'/app/views'))
 app.engine('html', exphbs({
     extname: '.html'
 }));
-app.set('view engine', '.html');  
+app.set('view engine', '.html'); 
+passport.use(new FacebookStrategy(fbOpts,fbCallback)); 
 //Models
 var models = require(path.resolve(__dirname+"/app/db/config/config.js"));
 

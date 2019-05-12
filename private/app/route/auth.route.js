@@ -1,16 +1,16 @@
 module.exports = function(app, passport,path) {
     var authController = require(path.resolve(__dirname+'/../db/controller/auth.controller.js'));
-    app.get('/signup', authController.signup);
-    app.get('/signin', authController.signin);
-    app.post('/signup', passport.authenticate('local-signup', {
+    app.get('/admin/signup', authController.signup);
+    app.get('/admin/signin', authController.signin);
+    app.post('/admin/signup', passport.authenticate('local-signup', {
             successRedirect: '/admin',
             failureRedirect: '/signup'
         }
     ));
-    app.get('/logout', authController.logout);
-    app.post('/signin', passport.authenticate('local-signin', {
-            successRedirect: '/admin',
-            failureRedirect: '/signin'
+    app.get('/admin/logout', authController.logout);
+    app.post('/admin/signin', passport.authenticate('local-signin', {
+            successRedirect: '/admin/',
+            failureRedirect: '/admin/signin'
         }
     ));
     app.get(['/admin/','/admin/drinks/','/admin/desserts','/admin/ingredients','/admin/add/ingredient','/admin/edit/ingredient/*',
@@ -24,6 +24,6 @@ module.exports = function(app, passport,path) {
         if (req.isAuthenticated()){
             return next();
         }
-        res.redirect('/signin');
+        res.redirect('/admin/signin');
     }
 }
