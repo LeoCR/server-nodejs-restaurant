@@ -1,5 +1,8 @@
 var bCrypt = require('bcrypt-nodejs');
 module.exports = function(passport, user) {
+    /**
+    * @see https://code.tutsplus.com/es/tutorials/using-passport-with-sequelize-and-mysql--cms-27537
+    **/
     var User = user;
     var LocalStrategy = require('passport-local').Strategy;
     passport.use('local-signup', new LocalStrategy(

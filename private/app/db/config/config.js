@@ -28,6 +28,5 @@ db.ingredient = require(path.resolve(__dirname+'/../model/ingredient.model.js'))
 db.dessert=require(path.resolve(__dirname+'/../model/dessert.model.js'))(sequelize, Sequelize);
 db.user=require(path.resolve(__dirname+'/../model/user.model.js'))(sequelize, Sequelize);
 db.drink=require(path.resolve(__dirname+'/../model/drink.model.js'))(sequelize, Sequelize);
-db.client=require(path.resolve(__dirname+'/../model/client.model.js'))(sequelize, Sequelize);
 
 module.exports = db;

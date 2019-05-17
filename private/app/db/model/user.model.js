@@ -1,5 +1,5 @@
 module.exports = function(sequelize, Sequelize) {
-    var User = sequelize.define('user', {
+    var User = sequelize.define('USER', {
         id: {
             autoIncrement: true,
             primaryKey: true,
@@ -7,11 +7,11 @@ module.exports = function(sequelize, Sequelize) {
         },
         firstname: {
             type: Sequelize.STRING,
-            notEmpty: true
+            //notEmpty: true
         },
         lastname: {
             type: Sequelize.STRING,
-            notEmpty: true
+            //notEmpty: true
         },
         username: {
             type: Sequelize.TEXT
@@ -26,8 +26,8 @@ module.exports = function(sequelize, Sequelize) {
             }
         },
         password: {
-            type: Sequelize.STRING,
-            allowNull: false
+            type: Sequelize.STRING//,
+            //allowNull: false
         },
         last_login: {
             type: Sequelize.DATE
@@ -35,6 +35,12 @@ module.exports = function(sequelize, Sequelize) {
         status: {
             type: Sequelize.ENUM('active', 'inactive'),
             defaultValue: 'active'
+        },
+        provider: {
+            type: Sequelize.STRING
+        },
+        idUser: {
+            type: Sequelize.STRING
         }
     });
     return User;
