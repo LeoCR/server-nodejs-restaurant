@@ -23,4 +23,12 @@ module.exports = function(app,express,path) {
     app.use('/revolution/fonts/',express.static(path.resolve(__dirname+'/../../../../react-redux-shopping-cart-restaurant/public/revolution/fonts/')));
     app.use('/revolution/assets/',express.static(path.resolve(__dirname+'/../../../../react-redux-shopping-cart-restaurant/public/revolution/assets/')));
     app.use('/js/',express.static(path.resolve(__dirname+'/../../../../react-redux-shopping-cart-restaurant/public/js/')));
+    app.get('/user/info',function(req,res){
+        if(req.user){
+          res.json({user:req.user})
+        }
+        else{
+          res.json({user:null})
+        }
+    }) 
 }

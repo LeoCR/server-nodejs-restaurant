@@ -11,22 +11,53 @@ exphbs  = require('express-handlebars'),
 passport = require('passport'),
 cors = require('cors'),
 session = require('express-session'),
-FacebookStrategy= require('passport-facebook');
+FacebookStrategy= require('passport-facebook'),
+db = require(path.resolve(__dirname+'/app/db/config/config.js')),
+User = db.user;
 var fbOpts={
-    clientID: '720204288362847',
-    clientSecret: 'feef2e093911b66519d0169ebdeee6d5',
+    clientID: '1000175700179103',
+    clientSecret: 'a9a5309580a601253cd18a4d23bfdf26',
     callbackURL: "https://server-restaurant-leocr2015.c9users.io:8080/auth/facebook/callback",
     enableProof: true,
-    profileFields: ['id', 'email', 'first_name', 'last_name']
+    profileFields: ['id', 'displayName', 'photos', 'emails']
+    //profileFields: ['id', 'email', 'first_name', 'last_name']
 };
 var fbCallback=function(accessToken, refreshToken, profile, done) {
-        console.log('accessToken', accessToken);
-        console.log('refreshToken', refreshToken);
-        console.log('profile',profile);
-        done(null, profile);
+  console.log('accessToken', accessToken);
+  console.log('refreshToken', refreshToken);
+  console.log('profile',profile);
+  var email=profile.emails[0].value;
+  console.log('profile.emails[0].value '+email);
+  if(email!==''||email!==undefined){
+    var dateTime = new Date();
+    User.findOne({ where: {email} }).then(user => {
+      if(user){
+        User.update({
+          last_login: dateTime
+        }, 
+        { where: {email:email}}).then(userUpdated => {		
+          // Send created customer to client
+          console.log('userUpdated');
+          console.log(userUpdated);
+        }); 
+      }
+      else{
+        User.create({  
+          username: profile.displayName,
+          provider: 'facebook',
+          idUser:profile.id,
+          email:email,
+          createdAt:dateTime,
+          updatedAt:dateTime
+        }).then(userCreated => {		
+          console.log('userCreated');  
+          console.log(userCreated);
+        }); 
+      }
+    })
+  }
+  done(null, profile);
 };
-//Models
-var models = require(path.resolve(__dirname+"/app/db/config/config.js"));
 var storage = multer.diskStorage(
     {
         destination: path.resolve(__dirname+'/../react-admin-restaurant/img/uploads/'),
@@ -52,6 +83,8 @@ function verifyToken(req,res,next){
 		res.sendStatus(403);
     }
 }*/
+//Models
+var models = require(path.resolve(__dirname+"/app/db/config/config.js"));
 function isLoggedIn(req, res, next) {
     if (req.isAuthenticated()){
         return next();
@@ -67,13 +100,6 @@ app.use(bodyParser.urlencoded({extended: true}));
 app.use(bodyParser.json());
 // For Passport
 
-passport.serializeUser(function(user, done) {
-		done(null, user);
-});
-passport.deserializeUser(function(obj, done) {
-	done(null, obj);
-});
-passport.use(new FacebookStrategy(fbOpts,fbCallback));
 app.use(compression());
 app.use(session({
   secret: 'secretkey',
@@ -82,11 +108,17 @@ app.use(session({
 })); // session secret
 app.use(passport.initialize());
 app.use(passport.session()); // persistent login sessions
+passport.serializeUser(function(user, done) {
+  done(null, user);
+});
+passport.deserializeUser(function(obj, done) {
+  done(null, obj);
+});
+passport.use(new FacebookStrategy(fbOpts,fbCallback));
 app.use(methodOverride());
 app.use(function(err, req, res, next) {
   res.send('An error occurs: '+err);
 });
-app.get('/auth/facebook', passport.authenticate('facebook',{scope:['email']}));
 
 /** 
 *   Facebook will redirect the user to this URL after approval.  Finish the
@@ -96,9 +128,7 @@ app.get('/auth/facebook', passport.authenticate('facebook',{scope:['email']}));
 **/
 app.get('/auth/facebook/callback',
   passport.authenticate('facebook', { successRedirect: '/checkout',
-                                      failureRedirect: '/' }));
-//For Handlebars
-//app.set('views', '/Users/leo/Documents/server-restaurant-admin/private/app/views')
+                                      failureRedirect: '/',scope: ["email"] }));
 app.set('views', path.resolve(__dirname+'/app/views'))
 app.engine('html', exphbs({
     extname: '.html'
@@ -117,24 +147,18 @@ app.get('/validate/authentication',function(req,res){
     res.json({isAuthenticated:false});
   }
 });
-app.get(['/checkout','/checkout/payment'],isLoggedIn,function(req,res){
-    res.status(200).sendFile(path.resolve(__dirname+'/../react-redux-checkout-restaurant/build/index.html'));
-})
-
 
 require(path.resolve(__dirname+'/app/route/public.route.js'))(app,express,path);
-require(path.resolve(__dirname+'/app/route/private.route.js'))(app,express,path);
-require(path.resolve(__dirname+'/app/route/strongDish.route.js'))(app,router,upload,path);
-require(path.resolve(__dirname+'/app/route/entree.route.js'))(app,router,upload,path);
-require(path.resolve(__dirname+'/app/route/ingredient.route.js'))(app,router,upload,path);
-require(path.resolve(__dirname+'/app/route/dessert.route.js'))(app,router,upload,path);
-require(path.resolve(__dirname+'/app/route/drink.route.js'))(app,router,upload,path);
-require(path.resolve(__dirname+'/app/route/client.route.js'))(app,router,upload,path);
-require(path.resolve(__dirname+'/app/route/auth.route.js'))(app,passport,path); 
+require(path.resolve(__dirname+'/app/route/private.route.js'))(app,express,path,isLoggedIn);
+require(path.resolve(__dirname+'/app/route/strongDish.route.js'))(app,router,upload,path,isLoggedIn);
+require(path.resolve(__dirname+'/app/route/entree.route.js'))(app,router,upload,path,isLoggedIn);
+require(path.resolve(__dirname+'/app/route/ingredient.route.js'))(app,router,upload,path,isLoggedIn);
+require(path.resolve(__dirname+'/app/route/dessert.route.js'))(app,router,upload,path,isLoggedIn);
+require(path.resolve(__dirname+'/app/route/user.route.js'))(app,router,upload,path,isLoggedIn);
+require(path.resolve(__dirname+'/app/route/drink.route.js'))(app,router,upload,path,isLoggedIn);
+require(path.resolve(__dirname+'/app/route/auth.route.js'))(app,passport,path);  
 //load passport strategies
 require(path.resolve(__dirname+'/app/db/config/passport/passport.js'))(passport, models.user);
-
-
 //Sync Database
 models.sequelize.sync().then(function() {
     //console.log('http://localhost:49652')

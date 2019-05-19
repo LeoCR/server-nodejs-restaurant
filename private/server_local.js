@@ -29,15 +29,34 @@ var fbCallback=function(accessToken, refreshToken, profile, done) {
   console.log('profile',profile);
   var email=profile.emails[0].value;
   console.log('profile.emails[0].value '+email);
-  User.findOne({ where: {email} }).then(user => {
-    // project will be the first entry of the Projects table with the title 'aProject' || null
-    if(user){
-      console.log(user)
-    }
-    else{
-        console.log({user:null});
-    }
-}) 
+  if(email!==''||email!==undefined){
+    var dateTime = new Date();
+    User.findOne({ where: {email} }).then(user => {
+      if(user){
+        User.update({
+          last_login: dateTime
+        }, 
+        { where: {email:email}}).then(userUpdated => {		
+          // Send created customer to client
+          console.log('userUpdated');
+          console.log(userUpdated);
+        }); 
+      }
+      else{
+        User.create({  
+          username: profile.displayName,
+          provider: 'facebook',
+          idUser:profile.id,
+          email:email,
+          createdAt:dateTime,
+          updatedAt:dateTime
+        }).then(userCreated => {		
+          console.log('userCreated');  
+          console.log(userCreated);
+        }); 
+      }
+    })
+  } 
   done(null, profile);
 };
 var storage = multer.diskStorage(
@@ -78,15 +97,12 @@ passport.serializeUser(function(user, done) {
 passport.deserializeUser(function(obj, done) {
   done(null, obj);
 });
-
 passport.use(new FacebookStrategy(fbOpts,fbCallback)); 
 app.use(compression());
 app.use(methodOverride());
 app.use(function(err, req, res, next) {
   res.send('An error occurs: '+err);
 });
-//For Handlebars
-app.get('/auth/facebook', passport.authenticate('facebook',{scope:['email']}));
 /* 
     Facebook will redirect the user to this URL after approval.  Finish the
  authentication process by attempting to obtain an access token.  If
@@ -94,13 +110,13 @@ app.get('/auth/facebook', passport.authenticate('facebook',{scope:['email']}));
  authentication has failed.
 */
 app.get('/auth/facebook/callback',
-  passport.authenticate('facebook', { successRedirect: '/',
-                                      failureRedirect: '/login',scope: ["email"] }));
+  passport.authenticate('facebook', { successRedirect: '/checkout',
+                                      failureRedirect: '/',scope: ["email"] }));
 app.set('views', path.resolve(__dirname+'/app/views'))
 app.engine('html', exphbs({
     extname: '.html'
 }));
-app.set('view engine', '.html'); 
+app.set('view engine', '.html');
 app.get('/validate/authentication',function(req,res){
   if (req.isAuthenticated()){
     res.json({isAuthenticated:true});
