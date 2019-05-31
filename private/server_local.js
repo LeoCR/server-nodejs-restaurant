@@ -1,7 +1,6 @@
 const express = require('express'),
 path = require('path'), 
 app = express(),
-http = require('http'),
 bodyParser = require('body-parser'),
 compression = require('compression'),
 multer = require('multer'),
@@ -21,7 +20,7 @@ var fbOpts={
   clientSecret: 'a9a5309580a601253cd18a4d23bfdf26',
   callbackURL: "https://localhost:49652/auth/facebook/callback",
   enableProof: true,
-  profileFields: ['id', 'displayName', 'photos', 'emails']
+  profileFields: ['id', 'displayName', 'photos', 'emails','first_name', 'last_name']
 };
 var fbCallback=function(accessToken, refreshToken, profile, done) {
   console.log('accessToken', accessToken);
@@ -44,8 +43,10 @@ var fbCallback=function(accessToken, refreshToken, profile, done) {
       }
       else{
         User.create({  
-          username: profile.displayName,
-          provider: 'facebook',
+          username: profile._json.name,
+          firstname:profile._json.firstname,
+          lastname:profile._json.last_name,
+          provider:'facebook',
           idUser:profile.id,
           email:email,
           createdAt:dateTime,
@@ -132,7 +133,7 @@ require(path.resolve(__dirname+'/app/route/strongDish.route.js'))(app,router,upl
 require(path.resolve(__dirname+'/app/route/entree.route.js'))(app,router,upload,path,isLoggedIn);
 require(path.resolve(__dirname+'/app/route/ingredient.route.js'))(app,router,upload,path,isLoggedIn);
 require(path.resolve(__dirname+'/app/route/dessert.route.js'))(app,router,upload,path,isLoggedIn);
-require(path.resolve(__dirname+'/app/route/user.route.js'))(app,router,upload,path,isLoggedIn);
+require(path.resolve(__dirname+'/app/route/user.route.js'))(app,path,isLoggedIn);
 require(path.resolve(__dirname+'/app/route/drink.route.js'))(app,router,upload,path,isLoggedIn);
 require(path.resolve(__dirname+'/app/route/auth.route.js'))(app,passport,path); 
 //load passport strategies

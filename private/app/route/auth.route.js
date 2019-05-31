@@ -13,13 +13,26 @@ module.exports = function(app, passport,path) {
             failureRedirect: '/admin/signin'
         }
     ));
-    app.get(['/admin/','/admin/drinks/','/admin/desserts','/admin/ingredients','/admin/add/ingredient','/admin/edit/ingredient/*',
+    app.get(['/admin/','/admin/drinks/','/admin/desserts','/admin/ingredients',
+    '/admin/add/ingredient','/admin/edit/ingredient/*',
         '/admin/strongs-dishes','/admin/private/','/admin/drink','/admin/strong-dish','/admin/dessert','/admin/add/strong-dish','/admin/add/drink',
         '/admin/entrees','/admin/strong-dish','/admin/add/entree','/admin/edit/strong-dish/*','/admin/edit/dessert/*','/admin/edit/drink/*',
-        '/admin/edit/entree/*','/admin/edit/entree'
+        '/admin/edit/**/*','/admin/edit/entree',
+        '/admin/add/*'
         ], isLoggedIn, function (req, res) {  
         res.sendFile(path.resolve(__dirname+'/../../../../react-admin-restaurant/build/index.html'));
     });
+    app.post('/api/signup', passport.authenticate('local-signup', {
+        successRedirect: '/checkout',
+        failureRedirect: '/'
+        }
+    ));
+    app.get('/api/logout', authController.logout);
+    app.post('/api/login', passport.authenticate('local-signin', {
+            successRedirect: '/checkout/',
+            failureRedirect: '/'
+        }
+    ));
     function isLoggedIn(req, res, next) {
         if (req.isAuthenticated()){
             return next();

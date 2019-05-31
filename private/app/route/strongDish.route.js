@@ -7,6 +7,6 @@ module.exports = function(app,router,upload,path,isLoggedIn) {
     app.get('/api/strong-dish/show/:id', strongDish.findById);
     // Update with Id
     app.put('/api/strong-dish/update/:id',isLoggedIn, strongDish.update);
-    app.post('/api/strong-dish/update/',[isLoggedIn, upload.single('picture')],strongDish.updateImg);
+    app.put('/api/strong-dish/update-img/:id',[isLoggedIn, upload.single('picture')],strongDish.updateImg);
     
 }

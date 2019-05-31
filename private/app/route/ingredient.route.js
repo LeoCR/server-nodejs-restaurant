@@ -7,6 +7,6 @@ module.exports = function(app,router,upload,path,isLoggedIn) {
     app.get('/api/ingredient/show/:id', ingredient.findById);
     // Update
     app.put('/api/ingredient/update/:id',isLoggedIn, ingredient.update);
-    app.post('/api/ingredient/update/',[isLoggedIn, upload.single('img')], ingredient.updateImg);
+    app.put('/api/ingredient/update-img/:id',[isLoggedIn, upload.single('img')], ingredient.updateImg);
     
 }

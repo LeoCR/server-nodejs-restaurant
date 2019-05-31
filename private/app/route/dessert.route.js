@@ -7,5 +7,5 @@ module.exports = function(app,router,upload,path,isLoggedIn) {
     app.get('/api/dessert/show/:id', dessert.findById);
     // Update
     app.put('/api/dessert/update/:id',isLoggedIn, dessert.update);
-    app.post('/api/dessert/update/', [isLoggedIn,upload.single('picture')], dessert.updateImg);
+    app.put('/api/dessert/update-img/:id', [isLoggedIn,upload.single('picture')], dessert.updateImg);
 }

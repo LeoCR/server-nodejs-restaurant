@@ -7,5 +7,5 @@ module.exports = function(app,router,upload,path,isLoggedIn) {
     app.get('/api/entree/show/:id', entree.findById);
     // Update
     app.put('/api/entree/update/:id',isLoggedIn, entree.update);
-    app.post('/api/entree/update/', [isLoggedIn,upload.single('picture')], entree.updateImg);
+    app.put('/api/entree/update-img/:id', [isLoggedIn,upload.single('picture')], entree.updateImg);
 }

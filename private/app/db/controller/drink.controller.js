@@ -2,14 +2,13 @@ const path = require('path'),
 db = require(path.resolve(__dirname+'/../config/config.js')),
 sequelize=db.sequelize,
 Drink = db.drink;
-// FETCH all Customers
 exports.findAll = (req, res) => {
 	Drink.findAll().then(drink => {
-	  // Send all customers to Client
 	  res.send(drink);
+	}).catch(err => {
+		res.status(500).json({msg: "An error occurred.", details: err});
 	});
 };
-// Delete a Customer by Id
 exports.delete = (req, res) => {
 	const id = req.params.id;
 	Drink.destroy({
@@ -17,57 +16,53 @@ exports.delete = (req, res) => {
 		}).then(() => {
 			res.status(200).json( { msg: 'Deleted Successfully -> Drink Id = '  } );
 		}).catch(err => {
-			console.log(err);
-			res.status(500).json({msg: "error", details: err});
-		});
+			res.status(500).json({msg: "An error occurred.", details: err});
+	});
 };
-// Post a Customer
 exports.create = (req, res) => {	
   Drink.create({  
 		id: req.body.id,
 		name: req.body.name,
 		description: req.body.description,
-		picture:'/img/uploads/'+req.file.originalname,
+		picture:'/img/uploads/'+req.file.filename,
 		price:req.body.price 
 	}).then(drink => {		
-		  // Send created customer to client
 		  res.status(200).send(drink);
-	}); 
-	//res.status(200).redirect('/admin');
+	}).catch(err => {
+		res.status(500).json({msg: "An error occurred.", details: err});
+	});
 };
-// Find a Customer by Id
 exports.findById = (req, res) => {	
 	Drink.findById(req.params.id).then(drink => {
 		res.send(drink);
-	})
+	}).catch(err => {
+		res.status(500).json({msg: "An error occurred.", details: err});
+	});
 };
-// Update a Customer
 exports.update = (req, res) => {
 	Drink.update({  
 		  id: req.body.id,
 		  name: req.body.name,
 		  description: req.body.description,
-		  picture:req.body.picture,
 		  price:req.body.price 
 	  }, 
-	{ where: {id: req.body.id}}).then(drink => {		
-			// Send created customer to client
+	{ where: {id: req.body.id}}).then(drink => {
 			res.status(200).send(drink);
-	  }); 
-	  res.status(200).redirect('/admin');
+	  }).catch(err => {
+		res.status(500).json({msg: "An error occurred.", details: err});
+	});
 };
-// Update a Customer
 exports.updateImg = (req, res) => {
   Drink.update({  
 		id: req.body.id,
 		name: req.body.name,
 		description: req.body.description,
-		picture:'/img/uploads/'+req.file.originalname,
+		picture:'/img/uploads/'+req.file.filename,
 		price:req.body.price 
 	}, 
-  { where: {id: req.body.id}}).then(drink => {		
-		  // Send created customer to client
+  { where: {id: req.body.id}}).then(drink => {	
 		  res.status(200).send(drink);
-	}); 
-	res.status(200).redirect('/admin');
+	}).catch(err => {
+		res.status(500).json({msg: "An error occurred.", details: err});
+	});
 };
