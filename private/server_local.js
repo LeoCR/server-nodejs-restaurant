@@ -11,6 +11,7 @@ passport = require('passport'),
 cors = require('cors'),
 session = require('express-session'),
 FacebookStrategy= require('passport-facebook'),
+GoogleStrategy = require( 'passport-google-oauth2' ).Strategy,
 fs = require('fs'),
 https = require('https'),
 db = require(path.resolve(__dirname+'/app/db/config/config.js')),
@@ -21,6 +22,49 @@ var fbOpts={
   callbackURL: "https://localhost:49652/auth/facebook/callback",
   enableProof: true,
   profileFields: ['id', 'displayName', 'photos', 'emails','first_name', 'last_name']
+};
+var googleOpts={
+    clientID:"309759265514-0eq8pofu7m5066l0bhbctsf1fc5j0t6q.apps.googleusercontent.com",
+    clientSecret:"-K862ptYDMCBVqjY9lW7n406",
+    callbackURL: "/auth/google/callback",
+    passReqToCallback : true
+};
+var googleCallback=function(request, accessToken, refreshToken, profile, done) {
+  console.log('profile GoogleStrategy');
+  var email=profile.email;
+  console.log(profile);
+  if(email!==''||email!==undefined){
+    var dateTime = new Date();
+    User.findOne({ where: {email} }).then(user => {
+      if(user){
+        User.update({
+          last_login: dateTime,
+          provider:'google'
+        }, 
+        { where: {email:email}}).then(userUpdated => {		
+          // Send created customer to client
+          console.log('userUpdated');
+          console.log(userUpdated);
+        }); 
+      }
+      else{
+        User.create({  
+          username: profile.displayName,
+          firstname:profile.name.givenName,
+          lastname:profile.name.familyName,
+          provider:'google',
+          idUser:profile.id,
+          email:email,
+          createdAt:dateTime,
+          updatedAt:dateTime
+        }).then(userCreated => {		
+          console.log('userCreated');  
+          console.log(userCreated);
+        }); 
+      }
+    });
+  }
+  done(null, profile);
 };
 var fbCallback=function(accessToken, refreshToken, profile, done) {
   console.log('accessToken', accessToken);
@@ -33,6 +77,7 @@ var fbCallback=function(accessToken, refreshToken, profile, done) {
     User.findOne({ where: {email} }).then(user => {
       if(user){
         User.update({
+          provider:'facebook',
           last_login: dateTime
         }, 
         { where: {email:email}}).then(userUpdated => {		
@@ -99,20 +144,32 @@ passport.deserializeUser(function(obj, done) {
   done(null, obj);
 });
 passport.use(new FacebookStrategy(fbOpts,fbCallback)); 
+passport.use(new GoogleStrategy(googleOpts,googleCallback));
+app.get('/auth/google/callback',
+  passport.authenticate('google', { 
+    scope:[ 'profile','https://www.googleapis.com/auth/userinfo.profile',
+    'https://www.googleapis.com/auth/userinfo.email'],
+    successRedirect: '/checkout',
+    failureRedirect: '/'
+  }
+));
+/* 
+  Facebook will redirect the user to this URL after approval.  Finish the
+authentication process by attempting to obtain an access token.  If
+access was granted, the user will be logged in.  Otherwise,
+authentication has failed.
+*/
+app.get('/auth/facebook/callback',
+  passport.authenticate('facebook', { 
+    successRedirect: '/checkout',
+    failureRedirect: '/',scope: ["email"] }
+));
 app.use(compression());
 app.use(methodOverride());
 app.use(function(err, req, res, next) {
   res.send('An error occurs: '+err);
 });
-/* 
-    Facebook will redirect the user to this URL after approval.  Finish the
- authentication process by attempting to obtain an access token.  If
- access was granted, the user will be logged in.  Otherwise,
- authentication has failed.
-*/
-app.get('/auth/facebook/callback',
-  passport.authenticate('facebook', { successRedirect: '/checkout',
-                                      failureRedirect: '/',scope: ["email"] }));
+
 app.set('views', path.resolve(__dirname+'/app/views'))
 app.engine('html', exphbs({
     extname: '.html'
@@ -134,6 +191,7 @@ require(path.resolve(__dirname+'/app/route/entree.route.js'))(app,router,upload,
 require(path.resolve(__dirname+'/app/route/ingredient.route.js'))(app,router,upload,path,isLoggedIn);
 require(path.resolve(__dirname+'/app/route/dessert.route.js'))(app,router,upload,path,isLoggedIn);
 require(path.resolve(__dirname+'/app/route/user.route.js'))(app,path,isLoggedIn);
+require(path.resolve(__dirname+'/app/route/invoice.route.js'))(app,path,isLoggedIn);
 require(path.resolve(__dirname+'/app/route/drink.route.js'))(app,router,upload,path,isLoggedIn);
 require(path.resolve(__dirname+'/app/route/auth.route.js'))(app,passport,path); 
 //load passport strategies

@@ -3,5 +3,6 @@ module.exports = function(app,path,isLoggedIn) {
     
     app.get('/api/find/email/:email', user.findByEmail);
     app.get('/api/users',isLoggedIn, user.findAll);
+    app.get('/api/find/id/:id',isLoggedIn,user.findById);
     
 }

@@ -5,6 +5,7 @@ module.exports = function(passport, user) {
     **/
     var User = user;
     var LocalStrategy = require('passport-local').Strategy;
+    var dateTime = new Date();
     passport.use('local-signup', new LocalStrategy(
         {
             usernameField: 'email',
@@ -26,15 +27,17 @@ module.exports = function(passport, user) {
                     });
                 } else{
                     var userPassword = generateHash(password);
-                    var data =
-                        {
+                    var data ={
                             email: email,
                             password: userPassword,
                             username:req.body.username,
                             firstname: req.body.firstname,
                             lastname: req.body.lastname,
-                            provider:'system'
-                        };
+                            provider:'system',
+                            last_login:dateTime,
+                            createdAt:dateTime,
+                            updatedAt:dateTime
+                    };
                     User.create(data).then(function(newUser, created) {
                         if (!newUser) {
                             return done(null, false);

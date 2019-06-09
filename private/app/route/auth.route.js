@@ -13,12 +13,13 @@ module.exports = function(app, passport,path) {
             failureRedirect: '/admin/signin'
         }
     ));
-    app.get(['/admin/','/admin/drinks/','/admin/desserts','/admin/ingredients',
-    '/admin/add/ingredient','/admin/edit/ingredient/*',
+    app.get([
+        '/admin/','/admin/drinks/','/admin/desserts','/admin/ingredients',
+        '/admin/add/ingredient','/admin/edit/ingredient/*',
         '/admin/strongs-dishes','/admin/private/','/admin/drink','/admin/strong-dish','/admin/dessert','/admin/add/strong-dish','/admin/add/drink',
         '/admin/entrees','/admin/strong-dish','/admin/add/entree','/admin/edit/strong-dish/*','/admin/edit/dessert/*','/admin/edit/drink/*',
         '/admin/edit/**/*','/admin/edit/entree',
-        '/admin/add/*'
+        '/admin/add/*','/admin/invoices'
         ], isLoggedIn, function (req, res) {  
         res.sendFile(path.resolve(__dirname+'/../../../../react-admin-restaurant/build/index.html'));
     });

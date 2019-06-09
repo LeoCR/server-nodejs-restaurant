@@ -28,5 +28,7 @@ db.ingredient = require(path.resolve(__dirname+'/../model/ingredient.model.js'))
 db.dessert=require(path.resolve(__dirname+'/../model/dessert.model.js'))(sequelize, Sequelize);
 db.user=require(path.resolve(__dirname+'/../model/user.model.js'))(sequelize, Sequelize);
 db.drink=require(path.resolve(__dirname+'/../model/drink.model.js'))(sequelize, Sequelize);
+db.invoiceDetail=require(path.resolve(__dirname+'/../model/invoiceDetail.model.js'))(sequelize,Sequelize);
+db.headerInvoice=require(path.resolve(__dirname+'/../model/headerInvoice.model.js'))(sequelize,Sequelize);
 
 module.exports = db;
