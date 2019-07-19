@@ -10,101 +10,9 @@ exphbs  = require('express-handlebars'),
 passport = require('passport'),
 cors = require('cors'),
 session = require('express-session'),
-FacebookStrategy= require('passport-facebook'),
-GoogleStrategy = require( 'passport-google-oauth2' ).Strategy,
 fs = require('fs'),
-https = require('https'),
-db = require(path.resolve(__dirname+'/app/db/config/config.js')),
-User = db.user;
-var fbOpts={
-  clientID: '1000175700179103',
-  clientSecret: 'a9a5309580a601253cd18a4d23bfdf26',
-  callbackURL: "https://localhost:49652/auth/facebook/callback",
-  enableProof: true,
-  profileFields: ['id', 'displayName', 'photos', 'emails','first_name', 'last_name']
-};
-var googleOpts={
-    clientID:"309759265514-0eq8pofu7m5066l0bhbctsf1fc5j0t6q.apps.googleusercontent.com",
-    clientSecret:"-K862ptYDMCBVqjY9lW7n406",
-    callbackURL: "/auth/google/callback",
-    passReqToCallback : true
-};
-var googleCallback=function(request, accessToken, refreshToken, profile, done) {
-  console.log('profile GoogleStrategy');
-  var email=profile.email;
-  console.log(profile);
-  if(email!==''||email!==undefined){
-    var dateTime = new Date();
-    User.findOne({ where: {email} }).then(user => {
-      if(user){
-        User.update({
-          last_login: dateTime,
-          provider:'google'
-        }, 
-        { where: {email:email}}).then(userUpdated => {		
-          // Send created customer to client
-          console.log('userUpdated');
-          console.log(userUpdated);
-        }); 
-      }
-      else{
-        User.create({  
-          username: profile.displayName,
-          firstname:profile.name.givenName,
-          lastname:profile.name.familyName,
-          provider:'google',
-          idUser:profile.id,
-          email:email,
-          createdAt:dateTime,
-          updatedAt:dateTime
-        }).then(userCreated => {		
-          console.log('userCreated');  
-          console.log(userCreated);
-        }); 
-      }
-    });
-  }
-  done(null, profile);
-};
-var fbCallback=function(accessToken, refreshToken, profile, done) {
-  console.log('accessToken', accessToken);
-  console.log('refreshToken', refreshToken);
-  console.log('profile',profile);
-  var email=profile.emails[0].value;
-  console.log('profile.emails[0].value '+email);
-  if(email!==''||email!==undefined){
-    var dateTime = new Date();
-    User.findOne({ where: {email} }).then(user => {
-      if(user){
-        User.update({
-          provider:'facebook',
-          last_login: dateTime
-        }, 
-        { where: {email:email}}).then(userUpdated => {		
-          // Send created customer to client
-          console.log('userUpdated');
-          console.log(userUpdated);
-        }); 
-      }
-      else{
-        User.create({  
-          username: profile._json.name,
-          firstname:profile._json.firstname,
-          lastname:profile._json.last_name,
-          provider:'facebook',
-          idUser:profile.id,
-          email:email,
-          createdAt:dateTime,
-          updatedAt:dateTime
-        }).then(userCreated => {		
-          console.log('userCreated');  
-          console.log(userCreated);
-        }); 
-      }
-    })
-  } 
-  done(null, profile);
-};
+https = require('https');
+
 var storage = multer.diskStorage(
   {
       destination: path.resolve(__dirname+'/../../react-admin-restaurant/img/uploads/'),
@@ -143,27 +51,7 @@ passport.serializeUser(function(user, done) {
 passport.deserializeUser(function(obj, done) {
   done(null, obj);
 });
-passport.use(new FacebookStrategy(fbOpts,fbCallback)); 
-passport.use(new GoogleStrategy(googleOpts,googleCallback));
-app.get('/auth/google/callback',
-  passport.authenticate('google', { 
-    scope:[ 'profile','https://www.googleapis.com/auth/userinfo.profile',
-    'https://www.googleapis.com/auth/userinfo.email'],
-    successRedirect: '/checkout',
-    failureRedirect: '/'
-  }
-));
-/* 
-  Facebook will redirect the user to this URL after approval.  Finish the
-authentication process by attempting to obtain an access token.  If
-access was granted, the user will be logged in.  Otherwise,
-authentication has failed.
-*/
-app.get('/auth/facebook/callback',
-  passport.authenticate('facebook', { 
-    successRedirect: '/checkout',
-    failureRedirect: '/',scope: ["email"] }
-));
+
 app.use(compression());
 app.use(methodOverride());
 app.use(function(err, req, res, next) {
@@ -211,7 +99,7 @@ const httpsOptions = {
 }
 //Sync Database
 models.sequelize.sync().then(function() {
-    console.log('https://localhost:49652 works')
+    console.log('https://localhost:49658 works')
 }).catch(function(err) {
     console.log(err, "Something went wrong with the Database Update!")
 });
@@ -228,6 +116,6 @@ const server=https.createServer(httpsOptions,app, (req, res) => {
     })
     res.writeHead(200);
     res.end('hello world\n');
-    console.log('https://localhost:49652 !');
-}).listen(49652);
-var io = require('socket.io')(server);
+    console.log('https://localhost:49658 !');
+}).listen(49658);
+

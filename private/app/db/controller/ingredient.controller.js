@@ -25,7 +25,7 @@ exports.delete = (req, res) => {
 		});
 };
 exports.findById = (req, res) => {	
-	Ingredient.findById(req.params.id).then(ingredient => {
+	Ingredient.findByPk(req.params.id).then(ingredient => {
 		res.send(ingredient);
 	}).catch(err => {
 		res.status(500).json({msg: "An error occurred.", details: err});
@@ -57,9 +57,9 @@ exports.update = (req, res) => {
 	});
 };
 exports.getIngredientsByDish=(req,res)=>{
-	var sqlFindIngredientsByDish="SELECT INGREDIENT_DISH.idIngredientDish,INGREDIENT_DISH.idIngredient, "+
-	" INGREDIENT_DISH.idDish,INGREDIENT.name,INGREDIENT.img FROM INGREDIENT_DISH "+
-	" INNER JOIN  INGREDIENT ON INGREDIENT.id=INGREDIENT_DISH.idIngredient where INGREDIENT_DISH.idDish='"+req.params.idDish + "' ;";
+	var sqlFindIngredientsByDish="SELECT INGREDIENT_DISH.id_ingredient_dish,INGREDIENT_DISH.id_ingredient, "+
+	" INGREDIENT_DISH.id_dish,INGREDIENT.name,INGREDIENT.img FROM INGREDIENT_DISH "+
+	" INNER JOIN  INGREDIENT ON INGREDIENT.id=INGREDIENT_DISH.id_ingredient where INGREDIENT_DISH.id_dish='"+req.params.idDish + "' ;";
 	sequelize.query(sqlFindIngredientsByDish, { type: sequelize.QueryTypes.SELECT})
 	.then(ingredients => {
 				res.send(ingredients);     
@@ -78,18 +78,18 @@ exports.getLastIngredientToDishId=(req,res)=>{
 }
 exports.addIngredientToDish=(req,res)=>{
 	IngredientDish.findOne({ where: {
-		idIngredientDish:req.body.idIngredientDish,
-		idIngredient:req.body.idIngredient,
-		idDish: req.body.idDish
+		id_ingredient_dish:req.body.id_ingredient_dish,
+		id_ingredient:req.body.id_ingredient,
+		id_dish: req.body.id_dish
 	} }).then(ing => {
 		if(ing){
 				res.send(ing)
 		}
 		else{
 			IngredientDish.create({  
-				idIngredientDish:req.body.idIngredientDish,
-				idIngredient:req.body.idIngredient,
-				idDish: req.body.idDish
+				id_ingredient_dish:req.body.id_ingredient_dish,
+				id_ingredient:req.body.id_ingredient,
+				id_dish: req.body.id_dish
 			}).then(ingredient => {		 
 					res.status(200).send(ingredient);
 			}).catch(err => {

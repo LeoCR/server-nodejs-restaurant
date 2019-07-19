@@ -1,4 +1,4 @@
-const path = require('path'), 
+var path = require('path'), 
 db = require(path.resolve(__dirname+'/../config/config.js')),
 StrongDish = db.strongDish;
 exports.findAll = (req, res) => {
@@ -32,8 +32,8 @@ exports.create = (req, res) => {
 		res.status(500).json({msg: "An error occurred.", details: err});
 	});
 };
-exports.findById = (req, res) => {	
-	StrongDish.findById(req.params.id).then(dish => {
+exports.findById = (req, res) => {
+	StrongDish.findByPk(req.params.id).then(dish => {
 		res.send(dish);
 	}).catch(err => {
 		res.status(500).json({msg: "An error occurred.", details: err});

@@ -32,7 +32,7 @@ exports.create = (req, res) => {
 	});
 };
 exports.findById = (req, res) => {	
-	Dessert.findById(req.params.id).then(dish => {
+	Dessert.findByPk(req.params.id).then(dish => {
 		res.send(dish);
 	}).catch(err => {
 		res.status(500).json({msg: "An error occurred.", details: err});

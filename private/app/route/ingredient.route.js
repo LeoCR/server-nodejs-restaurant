@@ -1,6 +1,9 @@
 module.exports = function(app,router,upload,path,isLoggedIn) {
     const ingredient = require(path.resolve(__dirname+'/../db/controller/ingredient.controller.js')); 
     // Retrieve all 
+    app.get('/admin/ingredients/:page',isLoggedIn,(req,res)=>{
+        res.status(200).sendFile(path.resolve(__dirname+'/../../../../react-admin-restaurant/build/index.html'));
+    })
     app.get('/api/ingredients', ingredient.findAll);
     app.delete('/api/ingredient/delete/:id', isLoggedIn,ingredient.delete);
     app.post('/api/ingredient/add/', [isLoggedIn,upload.single('img')],ingredient.create);

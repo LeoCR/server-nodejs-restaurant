@@ -1,15 +1,15 @@
 module.exports = (sequelize, Sequelize) => {
     const HEADER_INVOICE = sequelize.define('HEADER_INVOICE', {
-        idHeader: {
+        id_header: {
             type: Sequelize.INTEGER,
             primaryKey: true
         },
         total: Sequelize.DECIMAL,
-        subTotal:  Sequelize.DECIMAL,
-        salesTax:Sequelize.DECIMAL,
-        productId:Sequelize.TEXT,
-        productName:Sequelize.TEXT,
-        productQuantity:Sequelize.INTEGER
+        subtotal:  Sequelize.DECIMAL,
+        sales_tax:Sequelize.DECIMAL,
+        product_id:Sequelize.TEXT,
+        product_name:Sequelize.TEXT,
+        product_quantity:Sequelize.INTEGER
         },{
             timestamps: false
     });

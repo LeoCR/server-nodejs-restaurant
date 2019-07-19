@@ -32,10 +32,10 @@ module.exports = function(sequelize, Sequelize) {
         last_login: {
             type: Sequelize.DATE
         },
-        updatedAt:{
+        updated_at:{
             type:Sequelize.DATE
         },
-        createdAt:{
+        created_at:{
             type:Sequelize.DATE
         },
         status: {
@@ -45,9 +45,11 @@ module.exports = function(sequelize, Sequelize) {
         provider: {
             type: Sequelize.STRING
         },
-        idUser: {
+        id_user: {
             type: Sequelize.STRING
         }
+    }, {
+        timestamps: false
     });
     return User;
 }

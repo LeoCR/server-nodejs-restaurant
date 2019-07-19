@@ -19,7 +19,7 @@ exports.delete = (req, res) => {
 	});
 };
 exports.findById = (req, res) => {	
-	Entree.findById(req.params.id).then(dish => {
+	Entree.findByPk(req.params.id).then(dish => {
 		res.send(dish);
 	}).catch(err => {
 		res.status(500).json({msg: "error", details: err});

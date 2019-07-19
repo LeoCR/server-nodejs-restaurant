@@ -1,11 +1,11 @@
 module.exports = (sequelize, Sequelize) => {
     const INGREDIENT_DISH = sequelize.define('INGREDIENT_DISH', {
-        idIngredientDish: {
+        id_ingredient_dish: {
             type: Sequelize.INTEGER,
             primaryKey: true
         },
-        idIngredient:Sequelize.STRING,
-        idDish: Sequelize.STRING
+        id_ingredient:Sequelize.STRING,
+        id_dish: Sequelize.STRING
         },{
             timestamps: false
     });

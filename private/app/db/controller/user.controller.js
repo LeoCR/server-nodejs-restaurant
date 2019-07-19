@@ -30,7 +30,7 @@ exports.findByEmail=(req,res)=>{
     })*/
 }
 exports.findById = (req, res) => {	
-	User.findById(req.params.id).then(user => {
+	User.findByPk(req.params.id).then(user => {
 		res.send(user);
 	}).catch(err => {
 		res.status(500).json({msg: "An error occurred.", details: err});

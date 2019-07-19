@@ -33,7 +33,7 @@ exports.create = (req, res) => {
 	});
 };
 exports.findById = (req, res) => {	
-	Drink.findById(req.params.id).then(drink => {
+	Drink.findByPk(req.params.id).then(drink => {
 		res.send(drink);
 	}).catch(err => {
 		res.status(500).json({msg: "An error occurred.", details: err});
