@@ -68,7 +68,7 @@ exports.getIngredientsByDish=(req,res)=>{
 	});
 }
 exports.getLastIngredientToDishId=(req,res)=>{
-		var sqlGetLastIngredientToDishId="SELECT MAX(idIngredientDish) AS maxIngredientDishId FROM restaurant_ui.INGREDIENT_DISH;";
+		var sqlGetLastIngredientToDishId="SELECT MAX(id_ingredient_dish) AS maxIngredientDishId FROM restaurant_ui.INGREDIENT_DISH;";
 		sequelize.query(sqlGetLastIngredientToDishId, { type: sequelize.QueryTypes.SELECT})
 		.then(ingredients => {
 					res.send(ingredients[0]);     
@@ -104,9 +104,9 @@ exports.addIngredientToDish=(req,res)=>{
 	})
 }
 exports.deleteIngredientFromDish = (req, res) => {
-	const id = req.params.idIngredientDish;
+	const id = req.params.id_ingredient_dish;
 	IngredientDish.destroy({
-		where: { idIngredientDish: id }
+		where: { id_ingredient_dish: id }
 	}).then(() => {
 		res.status(200).json({ msg: 'Deleted Successfully'});
 	}).catch(err => {

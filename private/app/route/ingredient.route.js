@@ -13,6 +13,6 @@ module.exports = function(app,router,upload,path,isLoggedIn) {
     app.put('/api/ingredient/update-img/:id',[isLoggedIn, upload.single('img')], ingredient.updateImg);
     app.get('/api/ingredients/:idDish',ingredient.getIngredientsByDish);
     app.post('/api/ingredient-to-dish/add/',ingredient.addIngredientToDish);
-    app.delete('/api/ingredient-to-dish/delete/:idIngredientDish',ingredient.deleteIngredientFromDish);
+    app.delete('/api/ingredient-to-dish/delete/:id_ingredient_dish',ingredient.deleteIngredientFromDish);
     app.get('/api/ingredient-to-dish/count/',ingredient.getLastIngredientToDishId)
 }
