@@ -2,7 +2,7 @@ const path = require('path'),
 db = require(path.resolve(__dirname+'/../config/config.js')),
 User = db.user,
 sequelize=db.sequelize;
-
+var bCrypt = require('bcrypt-nodejs');
 exports.findAll=(req,res)=>{
     User.findAll().then(user => {
         res.send(user);
@@ -36,3 +36,49 @@ exports.findById = (req, res) => {
 		res.status(500).json({msg: "An error occurred.", details: err});
 	});
 };
+var generateHash = function(password) {
+        return bCrypt.hashSync(password, bCrypt.genSaltSync(8), null);
+};
+exports.update=(req,res)=>{
+    var userPassword = generateHash(req.body.password);
+    User.update({  
+        id: req.body.id,
+        firstname: req.body.firstname,
+        lastname: req.body.lastname,
+        username:req.body.username,
+        about:req.body.about,
+        email: req.body.email,
+        password:userPassword
+    }, 
+  { where: {id: req.body.id}}).then(user => {	
+          res.status(200).send(user);
+    }).catch(err => {
+      res.status(500).json({msg: "An error occurred.", details: err});
+  });
+}
+exports.delete = (req, res) => {
+	const id = req.params.id;
+	User.destroy({
+			where: { id: id }
+		}).then(() => {
+			res.status(200).json( { msg: 'Deleted Successfully -> StrongDish Id = '  } );
+		}).catch(err => {
+			res.status(500).json({msg: "An error occurred.", details: err});
+	});
+};
+exports.create=(req,res)=>{
+    var userPassword = generateHash(req.body.password);
+    User.create({  
+        id: req.body.id,
+        firstname: req.body.firstname,
+        lastname: req.body.lastname,
+        username:req.body.username,
+        about:req.body.about,
+        email: req.body.email,
+        password:userPassword
+    }).then(user => {	
+          res.status(200).send(user);
+    }).catch(err => {
+      res.status(500).json({msg: "An error occurred.", details: err});
+  });
+}

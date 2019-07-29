@@ -4,5 +4,8 @@ module.exports = function(app,path,isLoggedIn) {
     app.get('/api/find/email/:email', user.findByEmail);
     app.get('/api/users',isLoggedIn, user.findAll);
     app.get('/api/find/id/:id',isLoggedIn,user.findById);
-    
+    app.get('/api/user/show/:id',user.findById);
+    app.put('/api/user/update/:id',user.update);
+    app.post('/api/user/add/',user.create)
+    app.delete('/api/user/delete/:id',user.delete);
 }
