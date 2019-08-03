@@ -2,7 +2,7 @@ module.exports = function(app,router,upload,path,isLoggedIn) {
     const strongDish = require(path.resolve(__dirname+'/../db/controller/strongDish.controller.js')); 
     // Retrieve all 
     app.get('/api/strongs-dishes', strongDish.findAll);
-    app.get('/admin/strongs-dishes/:page',isLoggedIn,(req,res)=>{
+    app.get('/admin/main-courses/:page',isLoggedIn,(req,res)=>{
         res.status(200).sendFile(path.resolve(__dirname+'/../../../../react-admin-restaurant/build/index.html'));
     })
     app.delete('/api/strongs-dish/delete/:id', isLoggedIn,strongDish.delete);

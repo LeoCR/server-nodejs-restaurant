@@ -16,9 +16,9 @@ module.exports = function(app, passport,path) {
     app.get([
         '/admin/','/admin/drinks/','/admin/desserts','/admin/ingredients',
         '/admin/add/ingredient','/admin/edit/ingredient/*',
-        '/admin/strongs-dishes','/admin/private/','/admin/drink','/admin/strong-dish','/admin/dessert','/admin/add/strong-dish','/admin/add/drink',
-        '/admin/entrees','/admin/strong-dish','/admin/add/entree','/admin/edit/strong-dish/*','/admin/edit/dessert/*','/admin/edit/drink/*',
-        '/admin/edit/**/*','/admin/edit/entree',
+        '/admin/main-courses','/admin/private/','/admin/drink','/admin/strong-dish','/admin/dessert','/admin/add/main-course','/admin/add/drink',
+        '/admin/appetizers','/admin/main-course','/admin/add/appetizer','/admin/edit/main-course/*','/admin/edit/dessert/*','/admin/edit/drink/*',
+        '/admin/edit/**/*','/admin/edit/appetizer',
         '/admin/add/*','/admin/invoices'
         ], isLoggedIn, function (req, res) {  
         res.sendFile(path.resolve(__dirname+'/../../../../react-admin-restaurant/build/index.html'));

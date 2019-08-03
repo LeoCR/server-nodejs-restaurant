@@ -5,9 +5,9 @@ module.exports = function(app,express,path,isLoggedIn) {
     })
     app.get([
     '/admin/edit/user/:id','/admin/users',
-    '/admin/strongs-dishes','/admin/add/strong-dish','/admin/strongs-dishes/:page',
+    '/admin/main-courses','/admin/add/main-course','/admin/main-courses/:page',
     '/admin/desserts','/admin/add/dessert','/admin/desserts/:page',
-    '/admin/entrees','/admin/add/entree','/admin/entrees/:page',
+    '/admin/appetizers','/admin/add/appetizer','/admin/appetizers/:page',
     '/admin/ingredients','/admin/add/ingredient','/admin/ingredients/:page',
     '/admin/drinks','/admin/add/drink','/admin/drinks/:page',
     '/admin/invoices','/admin/edit/invoice/:order_code'

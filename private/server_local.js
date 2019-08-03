@@ -91,6 +91,7 @@ app.route('/logout').get(function(req,res){
 })
 /**
  * https Options
+ * @see https://ksearch.wordpress.com/2017/08/22/generate-and-import-a-self-signed-ssl-certificate-on-mac-osx-sierra/
  * @see https://medium.freecodecamp.org/how-to-get-https-working-on-your-local-development-environment-in-5-minutes-7af615770eec
  */
 const httpsOptions = {

@@ -22,12 +22,13 @@ exports.findByEmail=(req,res)=>{
     }).catch(err => {
 		res.status(500).json({msg: "An error occurred.", details: err});
 	});
-    /* 
-    var sqlFindUser="SELECT * FROM restaurant_ui.USER WHERE email='"+req.params.email+"';";
-    sequelize.query(sqlFindUser, { type: sequelize.QueryTypes.SELECT})
-    .then(user => {
-                res.send(user);     
-    })*/
+}
+exports.countUsers=(req,res)=>{
+    var sqlTotalUsers="SELECT MAX(id) as MaxIdUser FROM restaurant_ui.USER;";
+    sequelize.query(sqlTotalUsers, { type: sequelize.QueryTypes.SELECT})
+    .then(maxUserId => {
+                res.send(maxUserId[0]);     
+    })
 }
 exports.findById = (req, res) => {	
 	User.findByPk(req.params.id).then(user => {
