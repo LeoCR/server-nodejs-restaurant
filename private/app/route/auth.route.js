@@ -13,16 +13,6 @@ module.exports = function(app, passport,path) {
             failureRedirect: '/admin/signin'
         }
     ));
-    app.get([
-        '/admin/','/admin/drinks/','/admin/desserts','/admin/ingredients',
-        '/admin/add/ingredient','/admin/edit/ingredient/*',
-        '/admin/main-courses','/admin/private/','/admin/drink','/admin/strong-dish','/admin/dessert','/admin/add/main-course','/admin/add/drink',
-        '/admin/appetizers','/admin/main-course','/admin/add/appetizer','/admin/edit/main-course/*','/admin/edit/dessert/*','/admin/edit/drink/*',
-        '/admin/edit/**/*','/admin/edit/appetizer',
-        '/admin/add/*','/admin/invoices'
-        ], isLoggedIn, function (req, res) {  
-        res.sendFile(path.resolve(__dirname+'/../../../../react-admin-restaurant/build/index.html'));
-    });
     app.post('/api/signup', passport.authenticate('local-signup', {
         successRedirect: '/checkout',
         failureRedirect: '/'
@@ -34,10 +24,4 @@ module.exports = function(app, passport,path) {
             failureRedirect: '/'
         }
     ));
-    function isLoggedIn(req, res, next) {
-        if (req.isAuthenticated()){
-            return next();
-        }
-        res.redirect('/admin/signin');
-    }
 }

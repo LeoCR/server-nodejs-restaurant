@@ -2,9 +2,6 @@ module.exports = function(app,router,upload,path,isLoggedIn) {
     const entree = require(path.resolve(__dirname+'/../db/controller/entree.controller.js')); 
     // Retrieve all 
     app.get('/api/entrees', entree.findAll);
-    app.get('/admin/appetizers/:page',isLoggedIn,(req,res)=>{
-        res.status(200).sendFile(path.resolve(__dirname+'/../../../../react-admin-restaurant/build/index.html'));
-    })
     app.delete('/api/entree/delete/:id',isLoggedIn, entree.delete);
     app.post('/api/entree/add/',[isLoggedIn, upload.single('picture')],entree.create);
     app.get('/api/entree/show/:id', entree.findById);
