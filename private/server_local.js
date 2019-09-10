@@ -74,13 +74,13 @@ app.get('/validate/authentication',function(req,res){
 
 require(path.resolve(__dirname+'/app/route/public.route.js'))(app,express,path);
 require(path.resolve(__dirname+'/app/route/private.route.js'))(app,express,path,isLoggedIn);
-require(path.resolve(__dirname+'/app/route/strongDish.route.js'))(app,router,upload,path,isLoggedIn);
-require(path.resolve(__dirname+'/app/route/entree.route.js'))(app,router,upload,path,isLoggedIn);
-require(path.resolve(__dirname+'/app/route/ingredient.route.js'))(app,router,upload,path,isLoggedIn);
-require(path.resolve(__dirname+'/app/route/dessert.route.js'))(app,router,upload,path,isLoggedIn);
+require(path.resolve(__dirname+'/app/route/strongDish.route.js'))(app,upload,path,isLoggedIn);
+require(path.resolve(__dirname+'/app/route/entree.route.js'))(app,upload,path,isLoggedIn);
+require(path.resolve(__dirname+'/app/route/ingredient.route.js'))(app,upload,path,isLoggedIn);
+require(path.resolve(__dirname+'/app/route/dessert.route.js'))(app,upload,path,isLoggedIn);
 require(path.resolve(__dirname+'/app/route/user.route.js'))(app,path,isLoggedIn);
 require(path.resolve(__dirname+'/app/route/invoice.route.js'))(app,path,isLoggedIn);
-require(path.resolve(__dirname+'/app/route/drink.route.js'))(app,router,upload,path,isLoggedIn);
+require(path.resolve(__dirname+'/app/route/drink.route.js'))(app,upload,path,isLoggedIn);
 require(path.resolve(__dirname+'/app/route/auth.route.js'))(app,passport,path); 
 //load passport strategies
 require(path.resolve(__dirname+'/app/db/config/passport/passport.js'))(passport, models.user);

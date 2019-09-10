@@ -1,10 +1,9 @@
 CREATE USER 'restaurant_user'@'%' IDENTIFIED BY 'WeW1llF0ll0wPunkR0ck3r';
 GRANT ALL PRIVILEGES ON *.* TO 'restaurant_user'@'%' WITH GRANT OPTION;
 
-DROP DATABASE restaurant_ui;
-CREATE Database restaurant_ui;
-
-use restaurant_ui;
+DROP DATABASE restaurant_react_redux;
+CREATE Database restaurant_react_redux;
+use restaurant_react_redux;
 DROP TABLE IF EXISTS INGREDIENT;
 CREATE TABLE IF NOT EXISTS INGREDIENT(
 	id VARCHAR(150) PRIMARY KEY,

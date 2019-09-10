@@ -5,7 +5,6 @@
   "main": "server.js",
   "scripts": {
     "local": "nodemon ./private/server_local.js",
-    "prod": "nodemon ./private/server_prod.js",
     "test": "nodemon ./private/test.js"
   },
   "author": "Leonardo Aranibar Sanchez",
