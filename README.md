@@ -1,4 +1,5 @@
 # server-nodejs-restaurant
-## Nodejs + Express + Mysql + Sequelize ORM
 
-Run: `npm run start`
+This project require another project as Front-End [React Restaurant Admin](https://github.com/LeoCR/react-restaurant-admin-crud/).
+
+Run: `npm run local`
