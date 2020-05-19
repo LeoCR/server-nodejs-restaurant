@@ -1,9 +1,9 @@
 CREATE USER 'restaurant_user'@'%' IDENTIFIED BY 'WeW1llF0ll0wPunkR0ck3r';
 GRANT ALL PRIVILEGES ON *.* TO 'restaurant_user'@'%' WITH GRANT OPTION;
 
-DROP DATABASE restaurant_react_redux;
-CREATE Database restaurant_react_redux;
-use restaurant_react_redux;
+DROP DATABASE restaurant_ui;
+CREATE Database restaurant_ui;
+use restaurant_ui;
 DROP TABLE IF EXISTS INGREDIENT;
 CREATE TABLE IF NOT EXISTS INGREDIENT(
 	id VARCHAR(150) PRIMARY KEY,
@@ -101,6 +101,9 @@ CREATE TABLE IF NOT EXISTS INVOICE_DETAIL(
     header_invoice INT NOT NULL,
     order_code VARCHAR(250) NOT NULL,
     date_of_billing DATETIME NOT NULL,
+    paypal_id VARCHAR(250),
+    paypal_payer_id VARCHAR(250),
+    paypal_token VARCHAR(250),
     CONSTRAINT FK_ClientInvoiceDetail FOREIGN KEY (client_restaurant) REFERENCES USER(id) ON DELETE CASCADE,
     CONSTRAINT FK_HeaderInvoiceDetail FOREIGN KEY (header_invoice) REFERENCES HEADER_INVOICE(id_header) ON DELETE CASCADE
 );
@@ -321,5 +324,5 @@ NULL,'active',NULL,NULL,'system','');
 INSERT INTO HEADER_INVOICE (id_header, total,product_id,product_name,product_quantity) VALUES(1,15,'3ENTR','Grilled Salmon Salad',2);
 INSERT INTO HEADER_INVOICE (id_header, total,product_id,product_name,product_quantity) VALUES(2,15,'8DESRT','Brownie with Ice Cream',2);
 
-INSERT INTO INVOICE_DETAIL VALUES(1,1,1,'INVC1','2019-03-12 02:30:00');
-INSERT INTO INVOICE_DETAIL VALUES(2,1,2,'INVC1','2019-03-12 02:30:00');
+INSERT INTO INVOICE_DETAIL VALUES(1,1,1,'INVC1','2019-03-12 02:30:00',null,null,null);
+INSERT INTO INVOICE_DETAIL VALUES(2,1,2,'INVC1','2019-03-12 02:30:00',null,null,null);
