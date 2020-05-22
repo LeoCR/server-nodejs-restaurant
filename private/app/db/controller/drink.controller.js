@@ -46,8 +46,14 @@ exports.update = (req, res) => {
 		  description: req.body.description,
 		  price:req.body.price 
 	  }, 
-	{ where: {id: req.body.id}}).then(drink => {
-			res.status(200).send(drink);
+	{ where: {id: req.params.id}}).then(drink => {
+		Drink.findByPk(req.params.id).then(drink => {
+			return res.send(drink);
+		}).catch(err => {
+			console.log('An errors occurs in drink.controller update() findByPk()'); 
+			console.log(err); 
+			return res.status(500).json({msg: "An error occurred.", details: err});
+		});
 	  }).catch(err => {
 		res.status(500).json({msg: "An error occurred.", details: err});
 	});
@@ -60,8 +66,14 @@ exports.updateImg = (req, res) => {
 		picture:'/img/uploads/'+req.file.filename,
 		price:req.body.price 
 	}, 
-  { where: {id: req.body.id}}).then(drink => {	
-		  res.status(200).send(drink);
+  { where: {id: req.params.id}}).then(drink => {	
+		Drink.findByPk(req.params.id).then(drink => {
+			return res.send(drink);
+		}).catch(err => {
+			console.log('An errors occurs in drink.controller updateImg() findByPk()'); 
+			console.log(err); 
+			return res.status(500).json({msg: "An error occurred.", details: err});
+		});
 	}).catch(err => {
 		res.status(500).json({msg: "An error occurred.", details: err});
 	});

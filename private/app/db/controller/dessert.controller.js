@@ -60,7 +60,7 @@ exports.update = async (req, res) => {
 			res.status(200).json({msg: "An error occurred.", details: err});
 	});
 };
-exports.updateImg = (req, res) => {
+exports.updateImg = (req, res) => { 
     Dessert.update({  
 			id: req.body.id,
 			name: req.body.name,
@@ -68,8 +68,14 @@ exports.updateImg = (req, res) => {
 			picture:'/img/uploads/'+req.file.filename,
 			price:req.body.price 
 		}, 
-		{ where: {id: req.body.id}}).then(dessert => {	
-		  res.status(200).send(dessert);
+		{ where: {id: req.params.id}}).then(dessert => {	
+			Dessert.findByPk(req.params.id).then(dish => {
+				return res.send(dish);
+			}).catch(err => {
+				console.log('An errors occurs in dessert.controller updateImg() findByPk()'); 
+				console.log(err); 
+				  res.status(200).json({msg: "An error occurred.", details: err});
+			});
 	}).catch(err => {
 		res.status(500).json({msg: "An error occurred.", details: err});
 	});
