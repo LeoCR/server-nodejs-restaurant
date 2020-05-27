@@ -49,9 +49,13 @@ exports.update = (req, res) => {
 		}, 
 			{ 
 				where: {
-					id: req.body.id
+					id: req.params.id
 		}}).then(ingredient => {		
-			res.status(200).send(ingredient);
+			Ingredient.findByPk(req.params.id).then(ingredient => {
+				return res.send(ingredient);
+			}).catch(err => {
+				res.status(500).json({msg: "An error occurred.", details: err});
+			});
 	}).catch(err => {
 		res.status(500).json({msg: "An error occurred.", details: err});
 	});
@@ -121,9 +125,13 @@ exports.updateImg = (req, res) => {
   }, 
 	  { 
 		  where: {
-			  id: req.body.id
+			  id: req.params.id
 	  }}).then(ingredient => {		
-	  res.status(200).send(ingredient);
+		Ingredient.findByPk(req.params.id).then(ingredient => {
+			return res.send(ingredient);
+		}).catch(err => {
+			res.status(500).json({msg: "An error occurred.", details: err});
+		});
   }).catch(err => {
 		res.status(500).json({msg: "An error occurred.", details: err});
 	});

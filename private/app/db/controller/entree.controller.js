@@ -49,9 +49,13 @@ exports.update = (req, res) => {
 	}, 
 		{ 
 			where: {
-				id: req.body.id
-		}}).then(entree => {		
-		res.status(200).send(entree);
+				id: req.params.id
+		} }).then(entree => {		
+			Entree.findByPk(req.params.id).then(dish => {
+				return res.send(dish);
+			}).catch(err => {
+				res.status(500).json({msg: "error", details: err});
+			});
 	}).catch(err => {
 		res.status(500).json({msg: "error", details: err});
 	});
@@ -67,9 +71,13 @@ exports.updateImg = (req, res) => {
 	}, 
 	  { 
 		where: {
-			  id: req.body.id
+			  id: req.params.id
 	  }}).then(entree => {		
-		res.status(200).send(entree);
+		Entree.findByPk(req.params.id).then(dish => {
+			return res.send(dish);
+		}).catch(err => {
+			res.status(500).json({msg: "error", details: err});
+		});
 	}).catch(err => {
 		res.status(500).json({msg: "error", details: err});
 	});
