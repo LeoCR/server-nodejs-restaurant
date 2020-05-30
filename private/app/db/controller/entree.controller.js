@@ -32,7 +32,7 @@ exports.create = (req, res) => {
 		description: req.body.description,
 		picture:'/img/uploads/'+req.file.filename,
 		category:req.body.category,
-		price:req.body.price 
+		price:parseFloat(req.body.price) 
 	}).then(entree => {		
 		  res.status(200).send(entree);
 	}).catch(err => {

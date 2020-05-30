@@ -25,7 +25,7 @@ exports.create = (req, res) => {
 		name: req.body.name,
 		description: req.body.description,
 		picture:'/img/uploads/'+req.file.filename,
-		price:req.body.price 
+		price:parseFloat(req.body.price)
 	}).then(drink => {		
 		  res.status(200).send(drink);
 	}).catch(err => {

@@ -3,6 +3,9 @@ const path = require('path');
 const sequelize = new Sequelize('restaurant_ui', 'root', '79461313', {
   host: 'localhost',
   dialect: 'mysql',
+  dialectOptions: {
+    decimalNumbers: true
+  },
   define: {
     charset: 'utf8',
     collate: 'utf8_general_ci',

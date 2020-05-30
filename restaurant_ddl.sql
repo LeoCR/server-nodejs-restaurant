@@ -123,7 +123,7 @@ INSERT INTO INGREDIENT VALUES ('12ING','Milk','/img/ingredients/milk.jpg'   );
 INSERT INTO INGREDIENT VALUES ('13ING','Lemon','/img/ingredients/lemon.jpg'   );
 INSERT INTO INGREDIENT VALUES ('14ING','Fish','/img/ingredients/fish.jpg'   );
 INSERT INTO INGREDIENT VALUES ('15ING','Cheese','/img/ingredients/cheese.jpg'   );
-INSERT INTO INGREDIENT VALUES ('16ING','Peperoni','/img/ingredients/peperoni.jpg'   );
+INSERT INTO INGREDIENT VALUES ('16ING','Strawberry','/img/ingredients/strawberry.jpg'   );
 INSERT INTO INGREDIENT VALUES ('17ING','Salmon','/img/ingredients/salmon.jpg'   );
 INSERT INTO INGREDIENT VALUES ('18ING','Carrot','/img/ingredients/carrot.jpg'   );
 INSERT INTO INGREDIENT VALUES ('19ING','Eggs','/img/ingredients/eggs.jpg'   );
