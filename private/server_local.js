@@ -26,6 +26,10 @@ var storage = multer.diskStorage(
 var upload = multer({ storage: storage });
 //Models
 var models = require(path.resolve(__dirname+"/app/db/config/config.js"));
+/**
+ * @see https://github.com/axios/axios/issues/535
+ */
+process.env.NODE_TLS_REJECT_UNAUTHORIZED = "0";
 function isLoggedIn(req, res, next) {
   if (req.isAuthenticated()){
       return next();
@@ -94,6 +98,8 @@ app.route('/logout').get(function(req,res){
  * https Options
  * @see https://ksearch.wordpress.com/2017/08/22/generate-and-import-a-self-signed-ssl-certificate-on-mac-osx-sierra/
  * @see https://medium.freecodecamp.org/how-to-get-https-working-on-your-local-development-environment-in-5-minutes-7af615770eec
+ * @see https://stackoverflow.com/questions/21397809/create-a-trusted-self-signed-ssl-cert-for-localhost-for-use-with-express-node
+ * 
  */
 const httpsOptions = {
     key: fs.readFileSync('/Users/leo/Documents/server-restaurant-admin/private/security/cert.key'),
@@ -107,7 +113,6 @@ models.sequelize.sync().then(function() {
 }).catch(function(err) {
     console.log(err, "Something went wrong with the Database Update!")
 });
-process.env.NODE_TLS_REJECT_UNAUTHORIZED = "0";
 const server=https.createServer(httpsOptions,app, (req, res) => {
     res.set({
       'Access-Control-Allow-Credentials': true,
@@ -122,4 +127,3 @@ const server=https.createServer(httpsOptions,app, (req, res) => {
     res.end('hello world\n');
     console.log('https://localhost:49658 !');
 }).listen(49658);
-
