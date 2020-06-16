@@ -15,15 +15,5 @@ module.exports = function(app, passport,path) {
             successRedirect: '/admin/',
             failureRedirect: '/admin/signin'
         }
-    ));
-    app.post('/api/signup', passport.authenticate('local-signup', {
-        successRedirect: '/checkout',
-        failureRedirect: '/'
-        }
-    ));
-    app.post('/api/login', passport.authenticate('local-signin', {
-            successRedirect: '/checkout/',
-            failureRedirect: '/'
-        }
-    ));
+    )); 
 }

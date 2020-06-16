@@ -316,8 +316,8 @@ INSERT INTO INGREDIENT_DISH VALUES(37,'20ING','9BGD');
     INSERT INTO INGREDIENT_DISH VALUES(64,'23ING','7ENTR');
     INSERT INTO INGREDIENT_DISH VALUES(65,'11ING','7ENTR');
 INSERT INTO USER VALUES 
-(1,'Leonardo','Aranibar',
-'LeonardoAranibarSanchez','I am Web Developer','laranibarsanchez@gmail.com',
+(1,'Invited','User',
+'InvitedUser','About myself','invited_user@gmail.com',
 '$2a$08$qP7LVeZRulKdFIVmwsemUem24bSYY9e4pg.NWqJg5p5FCFAIvxTvS',
 NULL,'active',NULL,NULL,'system','');
 

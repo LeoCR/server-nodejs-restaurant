@@ -15,16 +15,35 @@
                             <h1>Login Form</h1>
                             <div class="form-group">
                                 <label for="email">Email Address</label>
-                                <input name="email" type="text" class="form-control"/>    
+                                <input name="email" type="text" class="form-control" id="email"/>    
                             </div>
                             <div class="form-group">
                                 <label for="password">Password</label>
-                                <input name="password" type="password" class="form-control"/>
+                                <input name="password" type="password" class="form-control" id="password"/>
                             </div>
                             <p>Need an account?</p>
                             <a href="/admin/signup" target="_parent">Click here</a></br></br>
                             <input class="btn btn-danger" type="submit" value="Sign In" class="btn btn-primary"/>
-                        
+                            <script data-defer="defer">
+                                function getParameterByName(name, url) {
+                                    if (!url){
+                                        url = window.location.href;
+                                    }
+                                    name = name.replace(/[\[\]]/g, '\\$&');
+                                    var regex = new RegExp('[?&]' + name + '(=([^&#]*)|&|#|$)'),
+                                        results = regex.exec(url);
+                                    if (!results) return null;
+                                    if (!results[2]) return '';
+                                    return decodeURIComponent(results[2].replace(/\+/g, ' '));
+                                }
+                                (function(){
+                                    var fakeLogin = getParameterByName('fakeLogin');
+                                    if(fakeLogin){
+                                        document.querySelector("#email").value="invited_user@gmail.com";
+                                        document.querySelector("#password").value="79461313";
+                                    }
+                                })()
+                            </script>
                     </form>
             </div>
         </div>
