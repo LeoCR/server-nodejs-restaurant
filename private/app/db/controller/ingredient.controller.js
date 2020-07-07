@@ -51,17 +51,17 @@ exports.create = (req, res) => {
 		res.status(500).json({msg: "An error occurred.", details: err});
 	});
 }
-exports.update = (req, res) => {
-  	Ingredient.update({  
+exports.update =async (req, res) => {
+  	await Ingredient.update({  
 			id: req.body.id,
 			name: req.body.name
 		}, 
 			{ 
 				where: {
 					id: req.params.id
-		}}).then(ing => {		
-			Ingredient.findByPk(req.params.id).then(ingredient => {
-				return res.send(ingredient);
+		}}).then(() => {		
+			return Ingredient.findByPk(req.params.id).then(ingredient => {
+				 res.send(ingredient);
 			}).catch(err => {
 				res.status(500).json({msg: "An error occurred.", details: err});
 			});
@@ -126,22 +126,24 @@ exports.deleteIngredientFromDish = (req, res) => {
 		res.status(500).json({msg: "An error occurred.", details: err});
 	});
 }
-exports.updateImg = (req, res) => {
-	Ingredient.update({  
-	  id: req.body.id,
-	  name: req.body.name,
-	  img:'/img/uploads/'+req.file.filename,
-  }, 
-	  { 
+exports.updateImg =async (req, res) => {
+	await Ingredient.update({  
+		id: req.body.id,
+		name: req.body.name,
+		img:'/img/uploads/'+req.file.filename,
+	}, 
+	{ 
 		  where: {
 			  id: req.params.id
-	  }}).then(ingredient => {		
-		Ingredient.findByPk(req.params.id).then(ingredient => {
-			return res.send(ingredient);
+	}})
+	.then(() => {		
+		return Ingredient.findByPk(req.params.id).then(ingredient => {
+			 res.send(ingredient);
 		}).catch(err => {
 			res.status(500).json({msg: "An error occurred.", details: err});
 		});
-  }).catch(err => {
+	})
+	.catch(err => {
 		res.status(500).json({msg: "An error occurred.", details: err});
 	});
 };

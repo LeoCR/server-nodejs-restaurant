@@ -48,11 +48,11 @@ exports.update = (req, res) => {
 		price:req.body.price 
 	}
 	StrongDish.update(dish,{ where: {id: req.body.id}}).then(() => {	
-		 StrongDish.findByPk(req.body.id).then((strongDish)=>{
-			return res.status(200).send(strongDish);
+		return StrongDish.findByPk(req.body.id).then((strongDish)=>{
+			 res.status(200).send(strongDish);
 		}) 
 	  }).catch(err => {
-		return res.status(500).json({msg: "An error occurred.", details: err});
+		res.status(500).json({msg: "An error occurred.", details: err});
 	});
 };
 exports.updateImg = (req, res) => {
@@ -65,10 +65,10 @@ exports.updateImg = (req, res) => {
 		price:req.body.price 
 	};
   	StrongDish.update(dish, { where: {id: req.body.id}}).then(() => {	
-		 StrongDish.findByPk(req.body.id).then((strongDish)=>{
-			return res.status(200).send(strongDish);
+		return StrongDish.findByPk(req.body.id).then((strongDish)=>{
+			 res.status(200).send(strongDish);
 		}) 
 	}).catch(err => {
-		return res.status(500).json({msg: "An error occurred.", details: err});
+		res.status(500).json({msg: "An error occurred.", details: err});
 	});
 };

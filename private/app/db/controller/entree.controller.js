@@ -49,8 +49,8 @@ exports.create = (req, res) => {
 		res.status(500).json({msg: "error", details: err});
 	}); 
 }
-exports.update = (req, res) => {
-  	Entree.update({  
+exports.update =async (req, res) => {
+  	await Entree.update({  
 		id: req.body.id,
 		name: req.body.name,
 		description: req.body.description,
@@ -60,9 +60,9 @@ exports.update = (req, res) => {
 		{ 
 			where: {
 				id: req.params.id
-		} }).then(entree => {		
-			Entree.findByPk(req.params.id).then(dish => {
-				return res.send(dish);
+		} }).then(() => {		
+			return Entree.findByPk(req.params.id).then(dish => {
+				 res.send(dish);
 			}).catch(err => {
 				res.status(500).json({msg: "error", details: err});
 			});
@@ -70,8 +70,8 @@ exports.update = (req, res) => {
 		res.status(500).json({msg: "error", details: err});
 	});
 };
-exports.updateImg = (req, res) => {
-	Entree.update({  
+exports.updateImg =async (req, res) => {
+	await Entree.update({  
 	  id: req.body.id,
 	  name: req.body.name,
 	  description: req.body.description,
@@ -83,8 +83,8 @@ exports.updateImg = (req, res) => {
 		where: {
 			  id: req.params.id
 	  }}).then(entree => {		
-		Entree.findByPk(req.params.id).then(dish => {
-			return res.send(dish);
+		return Entree.findByPk(req.params.id).then(dish => {
+			 res.send(dish);
 		}).catch(err => {
 			res.status(500).json({msg: "error", details: err});
 		});

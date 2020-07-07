@@ -60,9 +60,9 @@ exports.update = async (req, res) => {
 		  price:req.body.price 
 	  }, 
 	{ where: {id: req.params.id},returning: true,
-	plain: true}).then(( updatedDesert ) => {	 
-		Dessert.findByPk(req.params.id).then(dish => {
-			return res.send(dish);
+	plain: true}).then(() => {	 
+		return Dessert.findByPk(req.params.id).then(dish => {
+			 res.send(dish);
 		}).catch(err => {
 			console.log('An errors occurs in dessert.controller update() findByPk()'); 
 			console.log(err); 
@@ -74,17 +74,17 @@ exports.update = async (req, res) => {
 			res.status(200).json({msg: "An error occurred.", details: err});
 	});
 };
-exports.updateImg = (req, res) => { 
-    Dessert.update({  
+exports.updateImg = async (req, res) => { 
+    await Dessert.update({  
 			id: req.body.id,
 			name: req.body.name,
 			description: req.body.description,
 			picture:'/img/uploads/'+req.file.filename,
 			price:req.body.price 
 		}, 
-		{ where: {id: req.params.id}}).then(dessert => {	
-			Dessert.findByPk(req.params.id).then(dish => {
-				return res.send(dish);
+		{ where: {id: req.params.id}}).then(() => {	
+			return Dessert.findByPk(req.params.id).then(dish => {
+				 res.send(dish);
 			}).catch(err => {
 				console.log('An errors occurs in dessert.controller updateImg() findByPk()'); 
 				console.log(err); 

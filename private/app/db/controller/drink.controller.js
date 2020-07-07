@@ -47,40 +47,40 @@ exports.findById = (req, res) => {
 		res.status(500).json({msg: "An error occurred.", details: err});
 	});
 };
-exports.update = (req, res) => {
-	Drink.update({  
+exports.update =async (req, res) => {
+	await Drink.update({  
 		  id: req.body.id,
 		  name: req.body.name,
 		  description: req.body.description,
 		  price:req.body.price 
 	  }, 
 	{ where: {id: req.params.id}}).then(drink => {
-		Drink.findByPk(req.params.id).then(drink => {
-			return res.send(drink);
+		return Drink.findByPk(req.params.id).then(drink => {
+			res.send(drink);
 		}).catch(err => {
 			console.log('An errors occurs in drink.controller update() findByPk()'); 
 			console.log(err); 
-			return res.status(500).json({msg: "An error occurred.", details: err});
+			res.status(500).json({msg: "An error occurred.", details: err});
 		});
 	  }).catch(err => {
 		res.status(500).json({msg: "An error occurred.", details: err});
 	});
 };
-exports.updateImg = (req, res) => {
-  Drink.update({  
+exports.updateImg =async (req, res) => {
+  await Drink.update({  
 		id: req.body.id,
 		name: req.body.name,
 		description: req.body.description,
 		picture:'/img/uploads/'+req.file.filename,
 		price:req.body.price 
 	}, 
-  { where: {id: req.params.id}}).then(drink => {	
-		Drink.findByPk(req.params.id).then(drink => {
-			return res.send(drink);
+  { where: {id: req.params.id}}).then(() => {	
+	return Drink.findByPk(req.params.id).then(drink => {
+			 res.send(drink);
 		}).catch(err => {
 			console.log('An errors occurs in drink.controller updateImg() findByPk()'); 
 			console.log(err); 
-			return res.status(500).json({msg: "An error occurred.", details: err});
+			 res.status(500).json({msg: "An error occurred.", details: err});
 		});
 	}).catch(err => {
 		res.status(500).json({msg: "An error occurred.", details: err});
