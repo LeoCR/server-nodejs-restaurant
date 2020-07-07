@@ -40,31 +40,35 @@ exports.findById = (req, res) => {
 	});
 };
 exports.update = (req, res) => {
-	StrongDish.update({  
-		  id: req.body.id,
-		  name: req.body.name,
-		  description: req.body.description,
-		  category:req.body.category,
-		  price:req.body.price 
-	  }, 
-	{ where: {id: req.body.id}}).then(strongDish => {	
-			res.status(200).send(strongDish);
+	var dish={  
+		id: req.body.id,
+		name: req.body.name,
+		description: req.body.description,
+		category:req.body.category,
+		price:req.body.price 
+	}
+	StrongDish.update(dish,{ where: {id: req.body.id}}).then(() => {	
+		 StrongDish.findByPk(req.body.id).then((strongDish)=>{
+			return res.status(200).send(strongDish);
+		}) 
 	  }).catch(err => {
-		res.status(500).json({msg: "An error occurred.", details: err});
+		return res.status(500).json({msg: "An error occurred.", details: err});
 	});
 };
 exports.updateImg = (req, res) => {
-  StrongDish.update({  
+	var dish={  
 		id: req.body.id,
 		name: req.body.name,
 		description: req.body.description,
 		picture:'/img/uploads/'+req.file.filename,
 		category:req.body.category,
 		price:req.body.price 
-	}, 
-  { where: {id: req.body.id}}).then(strongDish => {	
-		  res.status(200).send(strongDish);
+	};
+  	StrongDish.update(dish, { where: {id: req.body.id}}).then(() => {	
+		 StrongDish.findByPk(req.body.id).then((strongDish)=>{
+			return res.status(200).send(strongDish);
+		}) 
 	}).catch(err => {
-		res.status(500).json({msg: "An error occurred.", details: err});
+		return res.status(500).json({msg: "An error occurred.", details: err});
 	});
 };

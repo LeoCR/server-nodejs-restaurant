@@ -1,6 +1,6 @@
-const path = require('path'), 
-db = require(path.resolve(__dirname+'/../config/config.js')),
-sequelize=db.sequelize,
+const path = require('path'),
+fs = require('fs'), 
+db = require(path.resolve(__dirname+'/../config/config.js')), 
 Drink = db.drink;
 exports.findAll = (req, res) => {
 	Drink.findAll().then(drink => {
@@ -11,13 +11,21 @@ exports.findAll = (req, res) => {
 };
 exports.delete = (req, res) => {
 	const id = req.params.id;
-	Drink.destroy({
+	Drink.findByPk(id).then((drink)=>{
+		var path='/Users/leo/Documents/react-admin-restaurant/img/uploads';
+		var picToDelete=drink.dataValues.picture;
+		var tempPicToDelete=picToDelete.replace('/img/uploads', path); 
+		fs.unlink(tempPicToDelete, ()=>{
+			console.log('File deleted! '+tempPicToDelete); 
+		})
+		return Drink.destroy({
 			where: { id: id }
-		}).then(() => {
-			res.status(200).json( { msg: 'Deleted Successfully -> Drink Id = '  } );
-		}).catch(err => {
-			res.status(500).json({msg: "An error occurred.", details: err});
-	});
+			}).then(() => {
+				res.status(200).json( { msg: 'Deleted Successfully -> Drink Id = '+id  } );
+			}).catch(err => {
+				res.status(500).json({msg: "An error occurred.", details: err});
+		});
+	})	
 };
 exports.create = (req, res) => {	
   Drink.create({  

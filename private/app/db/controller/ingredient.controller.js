@@ -2,7 +2,7 @@ const path = require('path'),
 db = require(path.resolve(__dirname+'/../config/config.js')),
 Ingredient = db.ingredient,
 IngredientDish=db.ingredientDish,
-sequelize=db.sequelize;
+fs = require('fs');
 exports.findAll = (req, res) => {
 	Ingredient.findAll({
 		order: [
@@ -16,13 +16,21 @@ exports.findAll = (req, res) => {
 };
 exports.delete = (req, res) => {
 	const id = req.params.id;
-	Ingredient.destroy({
+	Ingredient.findByPk(id).then((ing)=>{
+		var path='/Users/leo/Documents/react-admin-restaurant/img/uploads';
+		var picToDelete=ing.dataValues.img;
+		var tempPicToDelete=picToDelete.replace('/img/uploads', path); 
+		fs.unlink(tempPicToDelete, ()=>{
+			console.log('File deleted! '+tempPicToDelete); 
+		})
+		return Ingredient.destroy({
 			where: { id: id }
 		}).then(() => {
 			res.status(200).json( { msg: 'Deleted Successfully -> Ingredient Id = '  } );
 		}).catch(err => {
 			res.status(500).json({msg: "An error occurred.", details: err});
 		});
+	})
 };
 exports.findById = (req, res) => {	
 	Ingredient.findByPk(req.params.id).then(ingredient => {
@@ -50,7 +58,7 @@ exports.update = (req, res) => {
 			{ 
 				where: {
 					id: req.params.id
-		}}).then(ingredient => {		
+		}}).then(ing => {		
 			Ingredient.findByPk(req.params.id).then(ingredient => {
 				return res.send(ingredient);
 			}).catch(err => {

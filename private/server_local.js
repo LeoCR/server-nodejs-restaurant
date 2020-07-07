@@ -35,7 +35,7 @@ function isLoggedIn(req, res, next) {
       return next();
   }
   else{
-      res.redirect('/');
+      res.redirect('/admin/signin');
   }
 }
 app.use(cors());
@@ -92,7 +92,7 @@ require('https').globalAgent.options.ca = rootCas;
 app.route('/logout').get(function(req,res){
     req.session.destroy();
     req.logout();
-    res.redirect('/');
+    res.redirect('/admin/signin');
 })
 /**
  * https Options

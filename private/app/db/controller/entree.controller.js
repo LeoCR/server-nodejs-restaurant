@@ -1,4 +1,5 @@
-const path = require('path'), 
+const path = require('path'),
+fs = require('fs'), 
 db = require(path.resolve(__dirname+'/../config/config.js')),
 Entree = db.entree;
 exports.findAll = (req, res) => {
@@ -10,13 +11,22 @@ exports.findAll = (req, res) => {
 };
 exports.delete = (req, res) => {
 	const id = req.params.id;
-	Entree.destroy({
+	Entree.findByPk(id).then((entree)=>{
+		var path='/Users/leo/Documents/react-admin-restaurant/img/uploads';
+		var picToDelete=entree.dataValues.picture;
+		var tempPicToDelete=picToDelete.replace('/img/uploads', path); 
+		fs.unlink(tempPicToDelete, ()=>{
+			console.log('File deleted! '+tempPicToDelete); 
+		})
+		return Entree.destroy({
 			where: { id: id }
-		}).then(() => {
-			res.status(200).json( { msg: 'Deleted Successfully -> Entree Id = '  } );
-		}).catch(err => {
-			res.status(500).json({msg: "error", details: err});
-	});
+			}).then(() => {
+				res.status(200).json( { msg: 'Deleted Successfully -> Entree Id = '+id  } );
+			}).catch(err => {
+				res.status(500).json({msg: "error", details: err});
+		});
+	})
+	
 };
 exports.findById = (req, res) => {	
 	Entree.findByPk(req.params.id).then(dish => {

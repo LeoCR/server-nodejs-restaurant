@@ -1,6 +1,7 @@
 const path = require('path'), 
 db = require(path.resolve(__dirname+'/../config/config.js')),
-Dessert = db.dessert;
+Dessert = db.dessert,
+fs = require('fs');
 exports.findAll = (req, res) => {
 	Dessert.findAll().then(dessert => {
 	  res.send(dessert);
@@ -10,13 +11,26 @@ exports.findAll = (req, res) => {
 };
 exports.delete = (req, res) => {
 	const id = req.params.id;
-	Dessert.destroy({
-			where: { id: id }
-		}).then(() => {
+	Dessert.findByPk(id).then(dessert=>{
+		var path='/Users/leo/Documents/react-admin-restaurant/img/uploads';
+		var picToDelete=dessert.dataValues.picture;
+		var tempPicToDelete=picToDelete.replace('/img/uploads', path);
+ 
+		fs.unlink(tempPicToDelete, ()=>{
+			console.log('File deleted! '+tempPicToDelete); 
+		})
+		return Dessert.destroy({
+			where: { 
+				id: id 
+			}
+		}).then((u) => {
+			console.log(u); 
 			res.status(200).json( { msg: 'Deleted Successfully -> Dessert Id = '+id  } );
 		}).catch(err => {
 			res.status(500).json({msg: "An error occurred.", details: err});
 		});
+	})
+	
 };
 exports.create = (req, res) => {	
     Dessert.create({  
