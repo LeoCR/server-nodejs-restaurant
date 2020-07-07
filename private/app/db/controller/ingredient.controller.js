@@ -2,7 +2,8 @@ const path = require('path'),
 db = require(path.resolve(__dirname+'/../config/config.js')),
 Ingredient = db.ingredient,
 IngredientDish=db.ingredientDish,
-fs = require('fs');
+fs = require('fs')
+sequelize=db.sequelize;
 exports.findAll = (req, res) => {
 	Ingredient.findAll({
 		order: [
