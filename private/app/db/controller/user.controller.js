@@ -1,8 +1,8 @@
 const path = require('path'), 
 db = require(path.resolve(__dirname+'/../config/config.js')),
 User = db.user,
-sequelize=db.sequelize;
-var bCrypt = require('bcrypt-nodejs');
+sequelize=db.sequelize, 
+bCrypt = require('bcrypt-nodejs');
 exports.findAll=(req,res)=>{
     User.findAll().then(user => {
         res.send(user);
@@ -24,7 +24,7 @@ exports.findByEmail=(req,res)=>{
 	});
 }
 exports.countUsers=(req,res)=>{
-    var sqlTotalUsers="SELECT MAX(id) as MaxIdUser FROM restaurant_ui.USER;";
+    const sqlTotalUsers="SELECT MAX(id) as MaxIdUser FROM restaurant_ui.USER;";
     sequelize.query(sqlTotalUsers, { type: sequelize.QueryTypes.SELECT})
     .then(maxUserId => {
                 res.send(maxUserId[0]);     
@@ -37,11 +37,11 @@ exports.findById = (req, res) => {
 		res.status(500).json({msg: "An error occurred.", details: err});
 	});
 };
-var generateHash = function(password) {
+const generateHash = function(password) {
         return bCrypt.hashSync(password, bCrypt.genSaltSync(8), null);
 };
 exports.update=(req,res)=>{
-    var userPassword = generateHash(req.body.password);
+    const userPassword = generateHash(req.body.password);
     User.update({  
         id: req.body.id,
         firstname: req.body.firstname,
@@ -68,7 +68,7 @@ exports.delete = (req, res) => {
 	});
 };
 exports.create=(req,res)=>{
-    var userPassword = generateHash(req.body.password);
+    const userPassword = generateHash(req.body.password);
     User.create({  
         id: req.body.id,
         firstname: req.body.firstname,

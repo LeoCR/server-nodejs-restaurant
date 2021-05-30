@@ -1,11 +1,11 @@
-var bCrypt = require('bcrypt-nodejs');
+const bCrypt = require('bcrypt-nodejs');
 module.exports = function(passport, user) {
     /**
     * @see https://code.tutsplus.com/es/tutorials/using-passport-with-sequelize-and-mysql--cms-27537
     **/
-    var User = user;
-    var LocalStrategy = require('passport-local').Strategy;
-    var dateTime = new Date();
+    const User = user;
+    const LocalStrategy = require('passport-local').Strategy;
+    const dateTime = new Date();
     passport.use('local-signup', new LocalStrategy(
         {
             usernameField: 'email',
@@ -13,7 +13,7 @@ module.exports = function(passport, user) {
             passReqToCallback: true // allows us to pass back the entire request to the callback
         },
         function(req, email, password, done) {
-            var generateHash = function(password) {
+            const generateHash = function(password) {
                 return bCrypt.hashSync(password, bCrypt.genSaltSync(8), null);
             };
             User.findOne({
@@ -26,8 +26,8 @@ module.exports = function(passport, user) {
                         message: 'That email is already taken'
                     });
                 } else{
-                    var userPassword = generateHash(password);
-                    var data ={
+                    const userPassword = generateHash(password);
+                    const data ={
                             email: email,
                             password: userPassword,
                             username:req.body.username,
@@ -73,8 +73,8 @@ module.exports = function(passport, user) {
             passReqToCallback: true // allows us to pass back the entire request to the callback
         },
         function(req, email, password, done) {
-            var User = user;
-            var isValidPassword = function(userpass, password) {
+            const User = user;
+            const isValidPassword = function(userpass, password) {
                 return bCrypt.compareSync(password, userpass);
             }
             User.findOne({
@@ -92,7 +92,7 @@ module.exports = function(passport, user) {
                         message: 'Incorrect password.'
                     });
                 }
-                var userinfo = user.get();
+                const userinfo = user.get();
                 return done(null, userinfo);
             }).catch(function(err) {
                 console.log("Error:", err);

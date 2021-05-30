@@ -40,7 +40,7 @@ exports.findById = (req, res) => {
 	});
 };
 exports.update = (req, res) => {
-	var dish={  
+	const dish={  
 		id: req.body.id,
 		name: req.body.name,
 		description: req.body.description,
@@ -56,7 +56,7 @@ exports.update = (req, res) => {
 	});
 };
 exports.updateImg = (req, res) => {
-	var dish={  
+	const dish={  
 		id: req.body.id,
 		name: req.body.name,
 		description: req.body.description,

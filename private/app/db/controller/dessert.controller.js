@@ -12,9 +12,9 @@ exports.findAll = (req, res) => {
 exports.delete = (req, res) => {
 	const id = req.params.id;
 	Dessert.findByPk(id).then(dessert=>{
-		var path='/Users/leo/Documents/react-admin-restaurant/img/uploads';
-		var picToDelete=dessert.dataValues.picture;
-		var tempPicToDelete=picToDelete.replace('/img/uploads', path);
+		const path='/Users/leo/Documents/react-admin-restaurant/img/uploads';
+		const picToDelete=dessert.dataValues.picture;
+		const tempPicToDelete=picToDelete.replace('/img/uploads', path);
  
 		fs.unlink(tempPicToDelete, ()=>{
 			console.log('File deleted! '+tempPicToDelete); 
