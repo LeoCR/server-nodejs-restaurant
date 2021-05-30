@@ -3,34 +3,32 @@ path = require('path'),
 app = express(),
 bodyParser = require('body-parser'),
 compression = require('compression'),
-multer = require('multer'),
-router = express.Router(),
+multer = require('multer'), 
 methodOverride = require('method-override'),
 exphbs  = require('express-handlebars'),
 passport = require('passport'),
 cors = require('cors'),
 session = require('express-session'),
 fs = require('fs'),
-https = require('https');
-var rootCas = require('ssl-root-cas/latest').create();
-var storage = multer.diskStorage(
+https = require('https'),
+rootCas = require('ssl-root-cas/latest').create(),
+storage = multer.diskStorage(
   {
-      destination: path.resolve(__dirname+'/../../react-admin-restaurant/img/uploads/'),
-      filename: function ( req, file, cb ) {
+      destination: path.resolve(__dirname+'/../public/img/uploads/'),
+      filename:  ( req, file, cb ) =>{
           //req.body is empty...
           //How could I get the new_file_name property sent from client here?
           cb( null, file.originalname);
       }
   }
-);
-var upload = multer({ storage: storage });
-//Models
-var models = require(path.resolve(__dirname+"/app/db/config/config.js"));
+), 
+upload = multer({ storage: storage }),
+models = require(path.resolve(__dirname+"/app/db/config/config.js"));
 /**
  * @see https://github.com/axios/axios/issues/535
  */
 process.env.NODE_TLS_REJECT_UNAUTHORIZED = "0";
-function isLoggedIn(req, res, next) {
+const isLoggedIn=(req, res, next)=>{
   if (req.isAuthenticated()){
       return next();
   }
@@ -49,16 +47,16 @@ app.use(session({
 })); // session secret
 app.use(passport.initialize());
 app.use(passport.session()); // persistent login sessions
-passport.serializeUser(function(user, done) {
+passport.serializeUser((user, done)=> {
   done(null, user);
 });
-passport.deserializeUser(function(obj, done) {
+passport.deserializeUser((obj, done)=> {
   done(null, obj);
 });
 
 app.use(compression());
 app.use(methodOverride());
-app.use(function(err, req, res, next) {
+app.use((err, req, res, next)=> {
   res.send('An error occurs: '+err);
 });
 
@@ -67,7 +65,7 @@ app.engine('html', exphbs({
     extname: '.html'
 }));
 app.set('view engine', '.html');
-app.get('/validate/authentication',function(req,res){
+app.get('/validate/authentication',(req,res)=>{
   if (req.isAuthenticated()){
     res.json({isAuthenticated:true});
   }
@@ -89,7 +87,7 @@ require(path.resolve(__dirname+'/app/route/auth.route.js'))(app,passport,path);
 //load passport strategies
 require(path.resolve(__dirname+'/app/db/config/passport/passport.js'))(passport, models.user);
 require('https').globalAgent.options.ca = rootCas;
-app.route('/logout').get(function(req,res){
+app.route('/logout').get((req,res)=>{
     req.session.destroy();
     req.logout();
     res.redirect('/admin/signin');
@@ -104,16 +102,14 @@ app.route('/logout').get(function(req,res){
 const httpsOptions = {
     key: fs.readFileSync('/Users/leo/Documents/server-restaurant-admin/private/security/cert.key'),
     cert: fs.readFileSync('/Users/leo/Documents/server-restaurant-admin/private/security/cert.pem')
-    //key: fs.readFileSync('/Users/leo/Documents/server-restaurant-admin/private/security/server.key'),
-    //cert: fs.readFileSync('/Users/leo/Documents/server-restaurant-admin/private/security/server.crt')
 }
 //Sync Database
 models.sequelize.sync().then(function() {
     console.log('https://localhost:49658 works')
-}).catch(function(err) {
+}).catch((err)=> {
     console.log(err, "Something went wrong with the Database Update!")
 });
-const server=https.createServer(httpsOptions,app, (req, res) => {
+https.createServer(httpsOptions,app, (req, res) => {
     res.set({
       'Access-Control-Allow-Credentials': true,
       'Cache-Control': 'no-cache',

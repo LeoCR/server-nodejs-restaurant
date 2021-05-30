@@ -1,8 +1,8 @@
 module.exports = function(app,express,path,isLoggedIn) {
-    app.use("/static/",isLoggedIn,express.static(path.resolve(__dirname+'/../../../../react-admin-restaurant/build/static')));
+    app.use("/static/",isLoggedIn,express.static(path.resolve(__dirname+'/../../../public/build/static')));
     app.get('/admin/',function(req,res){
             if (req.user) {
-                res.status(200).sendFile(path.resolve(__dirname+'/../../../../react-admin-restaurant/build/index.html'));
+                res.status(200).sendFile(path.resolve(__dirname+'/../../../public/build/index.html'));
                 
             } else {
                 res.setHeader('Content-Type', 'text/html')
@@ -19,6 +19,6 @@ module.exports = function(app,express,path,isLoggedIn) {
     '/admin/invoices','/admin/edit/invoice/:order_code','/admin/invoices/:page',
     '/admin/desserts/:page','/admin/desserts','/admin/edit/dessert/:id','/admin/add/dessert'
     ],isLoggedIn,function(req,res){
-        res.status(200).sendFile(path.resolve(__dirname+'/../../../../react-admin-restaurant/build/index.html'));
+        res.status(200).sendFile(path.resolve(__dirname+'/../../../public/build/index.html'));
     });
 }

@@ -1,7 +1,7 @@
 module.exports = function(app,express,path) {
     const publicController = require(path.resolve(__dirname+'/../db/controller/public.controller.js')); 
-    app.use('/img/',express.static(path.resolve(__dirname+'/../../../../react-admin-restaurant/img')));
-    
+    //app.use('/img/',express.static(path.resolve(__dirname+'/../../../../react-admin-restaurant/img')));
+    app.use('/img/',express.static(path.resolve(__dirname+'/../../../public/img')));
     app.get('/api/getProducts',publicController.getAllProducts);
     app.get('/api/product/:id',publicController.findProduct);
     app.get('/api/product/ingredients/:id',publicController.findIngredients);
